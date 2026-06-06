@@ -168,5 +168,5 @@ Create a token, copy it once, and place it in `GITHUB_TOKEN` inside `.env.local`
 ---
 
 <p align="center">
-  Built by <a href="https://x.com/samuelrizzondev">@samuelrizzondev</a>
+  @hardikkaurani
 </p>
