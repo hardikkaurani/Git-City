@@ -6,8 +6,8 @@ import {
   buildStatsTable,
 } from "./email-template";
 
-const FROM = "Git City <noreply@thegitcity.com>";
-const ADVERTISE_URL = "https://thegitcity.com/advertise";
+const FROM = "Git City <noreply@example.com>";
+const ADVERTISE_URL = "http://localhost:3001/advertise";
 
 export interface AdStats {
   impressions: number;

@@ -56,8 +56,8 @@ function markSeen(ipHash: string, adId: string, eventType: string) {
 }
 
 const ALLOWED_ORIGINS = new Set([
-  "https://thegitcity.com",
-  "https://www.thegitcity.com",
+  "http://localhost:3001",
+  "http://localhost:3001",
   "http://localhost:3001",
   "http://localhost:3000",
 ]);

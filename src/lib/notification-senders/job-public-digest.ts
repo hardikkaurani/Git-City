@@ -2,8 +2,8 @@ import { getResend } from "@/lib/resend";
 import { wrapInBaseTemplate, buildButton, escapeHtml } from "@/lib/email-template";
 import { SENIORITY_LABELS, LOCATION_TYPE_LABELS, SALARY_PERIOD_LABELS } from "../jobs/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
-const FROM = "Git City Jobs <noreply@thegitcity.com>";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
+const FROM = "Git City Jobs <noreply@example.com>";
 
 interface MatchingJob {
   id: string;

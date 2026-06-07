@@ -2,7 +2,7 @@ import { sendNotificationAsync } from "../notifications";
 import { buildButton, escapeHtml } from "../email-template";
 import { SENIORITY_LABELS, LOCATION_TYPE_LABELS } from "../jobs/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 interface MatchingJob {
   id: string;

@@ -387,11 +387,11 @@ export default function PrivacyPage() {
             <p className="mt-2">
               To exercise any right, email{" "}
               <a
-                href="mailto:samuel@thegitcity.com"
+                href="mailto:hardikkaurani1@gmail.com"
                 className="hover:text-cream"
                 style={{ color: ACCENT }}
               >
-                samuel@thegitcity.com
+                hardikkaurani1@gmail.com
               </a>{" "}
               from the address linked to your account. We respond within 15 days
               (LGPD) or 30 days (GDPR / CCPA), and may extend for complex
@@ -440,23 +440,23 @@ export default function PrivacyPage() {
               <Li>
                 Email:{" "}
                 <a
-                  href="mailto:samuel@thegitcity.com"
+                  href="mailto:hardikkaurani1@gmail.com"
                   className="hover:text-cream"
                   style={{ color: ACCENT }}
                 >
-                  samuel@thegitcity.com
+                  hardikkaurani1@gmail.com
                 </a>
               </Li>
               <Li>
                 X / Twitter:{" "}
                 <a
-                  href="https://x.com/samuelrizzondev"
+                  href="https://x.com/hardikkaurani"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-cream"
                   style={{ color: ACCENT }}
                 >
-                  @samuelrizzondev
+                  @hardikkaurani
                 </a>
               </Li>
             </ul>

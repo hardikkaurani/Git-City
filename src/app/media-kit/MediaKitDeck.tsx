@@ -511,22 +511,22 @@ function SlideContact() {
           WhatsApp
         </a>
         <a
-          href="mailto:hello@samuelrizzon.dev"
+          href="mailto:hardikkaurani1@gmail.com"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          hello@samuelrizzon.dev
+          hardikkaurani1@gmail.com
         </a>
         <a
-          href="https://x.com/samuelrizzondev"
+          href="https://x.com/hardikkaurani"
           target="_blank"
           rel="noopener noreferrer"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          @samuelrizzondev on X
+          @hardikkaurani on X
         </a>
       </div>
       <p className="mt-4 text-sm text-muted normal-case sm:text-base">
-        thegitcity.com
+        localhost:3001
       </p>
     </div>
   );

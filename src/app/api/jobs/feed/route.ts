@@ -8,7 +8,7 @@ import {
   BENEFITS_LIST,
 } from "@/lib/jobs/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 /**
  * GET /api/jobs/feed — Public job feed for aggregators.

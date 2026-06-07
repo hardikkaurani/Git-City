@@ -734,10 +734,10 @@ export default function SponsorshipLanding() {
                 >
                   {error}{" "}
                   <a
-                    href="mailto:samuel@thegitcity.com"
+                    href="mailto:hardikkaurani1@gmail.com"
                     className="underline hover:opacity-80"
                   >
-                    Email me directly at samuel@thegitcity.com
+                    Email me directly at hardikkaurani1@gmail.com
                   </a>
                 </div>
               )}
@@ -757,11 +757,11 @@ export default function SponsorshipLanding() {
               <p className="text-center text-[10px] text-muted normal-case">
                 Or email{" "}
                 <a
-                  href="mailto:samuel@thegitcity.com"
+                  href="mailto:hardikkaurani1@gmail.com"
                   className="hover:text-cream"
                   style={{ color: ACCENT }}
                 >
-                  samuel@thegitcity.com
+                  hardikkaurani1@gmail.com
                 </a>{" "}
                 directly.
               </p>
@@ -773,13 +773,13 @@ export default function SponsorshipLanding() {
       {/* ── Footer note ── */}
       <footer className="pb-12 text-center">
         <p className="text-xs text-muted normal-case">
-          Built by Samuel, solo dev.{" "}
+          Built by Hardik, solo dev.{" "}
           <a
-            href="mailto:samuel@thegitcity.com"
+            href="mailto:hardikkaurani1@gmail.com"
             className="transition-colors hover:text-cream"
             style={{ color: ACCENT }}
           >
-            samuel@thegitcity.com
+            hardikkaurani1@gmail.com
           </a>
           .
         </p>

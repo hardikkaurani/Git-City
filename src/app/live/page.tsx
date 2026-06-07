@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { LiveSession } from "@/lib/useCodingPresence";
+import { PROJECT_CONFIG } from "@/config/project";
 
-const CREATOR_LOGIN = "srizzon";
+const CREATOR_LOGIN = PROJECT_CONFIG.ownerGithubLogin;
 
 interface PresenceDev {
   githubLogin: string;

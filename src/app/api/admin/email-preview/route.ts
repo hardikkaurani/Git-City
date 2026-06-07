@@ -93,7 +93,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const fullHtml = wrapInBaseTemplate(t.html, "https://thegitcity.com/api/unsubscribe?dev=0&cat=all&token=preview");
+  const fullHtml = wrapInBaseTemplate(t.html, "http://localhost:3001/api/unsubscribe?dev=0&cat=all&token=preview");
 
   return new NextResponse(fullHtml, {
     headers: { "Content-Type": "text/html" },

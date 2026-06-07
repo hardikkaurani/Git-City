@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { PROJECT_CONFIG, PROJECT_REPOSITORY_URL } from "@/config/project";
 
 interface FounderMessageProps {
   onClose: () => void;
@@ -27,8 +28,8 @@ const MESSAGES: Record<Lang, string[]> = {
 };
 
 const SIGNATURE: Record<Lang, string> = {
-  en: "// samuel, founder, solo dev, citizen #1",
-  pt: "// samuel, fundador, dev solo, cidadão #1",
+  en: `// ${PROJECT_CONFIG.ownerGithubLogin}, founder, solo dev, citizen #1`,
+  pt: `// ${PROJECT_CONFIG.ownerGithubLogin}, fundador, dev solo, cidadão #1`,
 };
 
 const PS_TEXT: Record<Lang, string> = {
@@ -317,9 +318,9 @@ export default function FounderMessage({ onClose, session, hasClaimed, onSignIn 
               >
                 {lang === "en" ? "Connect with GitHub — get your building" : "Conectar com GitHub — resgatar seu prédio"}
               </button>
-            ) : (
+            ) : PROJECT_CONFIG.discordUrl ? (
               <a
-                href="https://discord.gg/2bTjFAkny7"
+                href={PROJECT_CONFIG.discordUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block font-pixel text-[10px] sm:text-[11px] px-4 py-2 uppercase tracking-wider transition-all duration-300"
@@ -333,6 +334,20 @@ export default function FounderMessage({ onClose, session, hasClaimed, onSignIn 
                 onMouseLeave={(e) => { e.currentTarget.style.background = "#00ff41"; e.currentTarget.style.borderColor = "#00ff41"; }}
               >
                 {lang === "en" ? "Join the Discord" : "Entrar no Discord"}
+              </a>
+            ) : (
+              <a
+                href="/support"
+                onClick={onClose}
+                className="inline-block font-pixel text-[10px] sm:text-[11px] px-4 py-2 uppercase tracking-wider transition-all duration-300"
+                style={{
+                  color: "#0d0d0f",
+                  background: "#00ff41",
+                  border: "2px solid #00ff41",
+                  boxShadow: "3px 3px 0px rgba(0, 255, 65, 0.3)",
+                }}
+              >
+                {lang === "en" ? "Support the city" : "Apoiar a cidade"}
               </a>
             )}
 
@@ -355,7 +370,7 @@ export default function FounderMessage({ onClose, session, hasClaimed, onSignIn 
               </a>
             ) : (
               <a
-                href="https://github.com/srizzon/git-city"
+                href={PROJECT_REPOSITORY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block font-pixel text-[10px] sm:text-[11px] px-4 py-2 uppercase tracking-wider transition-all duration-300"

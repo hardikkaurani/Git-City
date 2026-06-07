@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useBossEvent } from "@/lib/bossEventStore";
+import { projectUrl, publicUrlForDisplay } from "@/config/project";
 
 // ─── Boss Share Card ───────────────────────────────────────────
 //
@@ -14,7 +15,7 @@ import { useBossEvent } from "@/lib/bossEventStore";
 // Style matches the teaser-poster spec:
 //   • bg #0d0d0f, Silkscreen font, lime/accent text
 //   • subtle scanline overlay, pixel-shadow vibe
-//   • bottom: thegitcity.com
+//   • bottom: configured project URL
 
 const CARD_W = 1200;
 const CARD_H = 630;
@@ -158,7 +159,7 @@ export default function BossShareCard({ accentColor, shadowColor, leaderboard = 
     ctx.font = "20px 'Silkscreen', monospace";
     ctx.fillStyle = accentColor;
     ctx.textAlign = "center";
-    ctx.fillText("THEGITCITY.COM", CARD_W / 2, CARD_H - 80);
+    ctx.fillText(publicUrlForDisplay().toUpperCase(), CARD_W / 2, CARD_H - 80);
 
     // Scanlines overlay
     ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
@@ -174,7 +175,7 @@ export default function BossShareCard({ accentColor, shadowColor, leaderboard = 
   if (!open) return null;
 
   const tweetText = encodeURIComponent(
-    `Just helped defeat the Original Bug in Git City. Dealt ${playerDamage.toLocaleString()} damage, ranked #${yourRank}/${totalParticipants}.\n\nthegitcity.com`,
+    `Just helped defeat the Original Bug in Git City. Dealt ${playerDamage.toLocaleString()} damage, ranked #${yourRank}/${totalParticipants}.\n\n${projectUrl()}`,
   );
   const tweetUrl = `https://x.com/intent/tweet?text=${tweetText}`;
 

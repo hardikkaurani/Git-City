@@ -3,14 +3,20 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import GlobalRadio from "@/components/GlobalRadio";
+import { PROJECT_CONFIG, projectUrl, xUrl } from "@/config/project";
 import "./globals.css";
+
+const ownerHandle = PROJECT_CONFIG.xHandle ? `@${PROJECT_CONFIG.xHandle.replace(/^@/, "")}` : undefined;
+const ownerUrl = xUrl() || PROJECT_CONFIG.ownerGithubUrl;
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL ??
+    process.env.NEXT_PUBLIC_PROJECT_URL ??
+      process.env.NEXT_PUBLIC_APP_URL ??
+      process.env.NEXT_PUBLIC_BASE_URL ??
       (process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000")
+        : projectUrl())
   ),
   title: "Git City - Your GitHub as a 3D City",
   description:
@@ -34,21 +40,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@samuelrizzondev",
-    site: "@samuelrizzondev",
+    creator: ownerHandle,
+    site: ownerHandle,
   },
-  authors: [{ name: "Samuel Rizzon", url: "https://x.com/samuelrizzondev" }],
+  authors: [{ name: PROJECT_CONFIG.ownerDisplayName, url: ownerUrl }],
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-icon.png",
   },
 };
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ??
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000");
+const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : projectUrl();
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -61,8 +63,8 @@ const jsonLd = {
   operatingSystem: "Web",
   author: {
     "@type": "Person",
-    name: "Samuel Rizzon",
-    url: "https://x.com/samuelrizzondev",
+    name: PROJECT_CONFIG.ownerDisplayName,
+    url: ownerUrl,
   },
   offers: {
     "@type": "Offer",

@@ -1,3 +1,5 @@
+import { PROJECT_CONFIG, projectUrl } from "@/config/project";
+
 /**
  * Single source of truth for the legal entity behind Git City.
  *
@@ -21,12 +23,12 @@ export const LEGAL_CNPJ = "66.241.579/0001-92";
 export const LEGAL_CNPJ_RAW = "66241579000192";
 
 export const LEGAL_COUNTRY = "Brazil";
-export const LEGAL_EMAIL = "samuel@thegitcity.com";
+export const LEGAL_EMAIL = PROJECT_CONFIG.contactEmail;
 
 /** Founder / contact person — used for "built by" / public-facing references only. */
-export const LEGAL_FOUNDER = "Samuel Rizzon";
-export const LEGAL_X_HANDLE = "samuelrizzondev";
-export const LEGAL_WEBSITE = "https://thegitcity.com";
+export const LEGAL_FOUNDER = PROJECT_CONFIG.ownerDisplayName;
+export const LEGAL_X_HANDLE = PROJECT_CONFIG.xHandle.replace(/^@/, "");
+export const LEGAL_WEBSITE = projectUrl();
 
 /** Pre-formatted entity line for footers and headers. */
 export const LEGAL_ENTITY_LINE = `${LEGAL_RAZAO_SOCIAL} · CNPJ ${LEGAL_CNPJ}`;

@@ -1,7 +1,7 @@
 import { sendCompanyEmail } from "@/lib/jobs/send-company-email";
 import { buildButton, escapeHtml } from "@/lib/email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 interface ListingStats {
   title: string;

@@ -121,7 +121,7 @@ export async function GET(
       app?.created_at?.slice(0, 10) ?? "",
       score,
       escapeCSV(badges.join("; ")),
-      `https://thegitcity.com/hire/${dev.github_login}`,
+      `http://localhost:3001/hire/${dev.github_login}`,
     ].join(",");
   });
 

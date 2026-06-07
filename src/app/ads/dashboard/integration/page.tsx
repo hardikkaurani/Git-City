@@ -178,7 +178,7 @@ export default function IntegrationPage() {
               label="pixel"
               copied={copied}
               onCopy={copy}
-              code={`<script src="https://thegitcity.com/gc-pixel.js"
+              code={`<script src="http://localhost:3001/gc-pixel.js"
   data-event="purchase"
   data-order-id="ORDER_123"
   data-revenue="29.99">
@@ -311,7 +311,7 @@ async function trackConversion(clickId, { eventName, orderId, revenue }) {
     .update(\`\${clickId}.\${timestamp}\`)
     .digest("hex");
 
-  const res = await fetch("https://thegitcity.com/api/v1/ads/conversions", {
+  const res = await fetch("http://localhost:3001/api/v1/ads/conversions", {
     method: "POST",
     headers: {
       "Authorization": \`Bearer \${API_KEY}\`,
@@ -342,7 +342,7 @@ SIGNATURE=$(echo -n "$CLICK_ID.$TIMESTAMP" \\
   | openssl dgst -sha256 -hmac "YOUR_WEBHOOK_SECRET" \\
   | awk '{print $2}')
 
-curl -X POST https://thegitcity.com/api/v1/ads/conversions \\
+curl -X POST http://localhost:3001/api/v1/ads/conversions \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d "{

@@ -1,8 +1,8 @@
 import { getResend } from "@/lib/resend";
 import { wrapInBaseTemplate, buildButton, escapeHtml } from "@/lib/email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
-const FROM = "Git City Jobs <noreply@thegitcity.com>";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
+const FROM = "Git City Jobs <noreply@example.com>";
 
 /**
  * Welcome email sent to a company when an admin links their advertiser account.

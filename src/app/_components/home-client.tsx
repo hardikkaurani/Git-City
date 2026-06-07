@@ -65,6 +65,7 @@ import {
   trackEArcadeClicked,
   trackLandmarkClicked,
 } from "@/lib/himetrica";
+import { PROJECT_CONFIG, PROJECT_REPOSITORY_URL, githubApiRepoUrl, projectUrl, xUrl } from "@/config/project";
 
 const CityCanvas = dynamic(() => import("@/components/CityCanvas"), {
   ssr: false,
@@ -706,16 +707,18 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
   const prevRaidPhaseRef = useRef<string>("idle");
   const lastSuccessfulRaidRef = useRef<{ defenderLogin: string; attackerLogin: string; tagStyle: string } | null>(null);
 
-  // Fetch GitHub star count + Discord member count + Arcade player count
+  // Fetch configured GitHub star count + optional Discord member count + Arcade player count
   useEffect(() => {
-    fetch("https://api.github.com/repos/srizzon/git-city")
+    fetch(githubApiRepoUrl())
       .then((r) => r.ok ? r.json() : null)
       .then((d) => { if (d?.stargazers_count != null) setStarCount(d.stargazers_count); })
       .catch(() => { });
-    fetch("https://discord.com/api/v9/invites/2bTjFAkny7?with_counts=true")
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => { if (d?.approximate_member_count != null) setDiscordMembers(d.approximate_member_count); })
-      .catch(() => { });
+    if (PROJECT_CONFIG.discordInviteApiUrl) {
+      fetch(PROJECT_CONFIG.discordInviteApiUrl)
+        .then((r) => r.ok ? r.json() : null)
+        .then((d) => { if (d?.approximate_member_count != null) setDiscordMembers(d.approximate_member_count); })
+        .catch(() => { });
+    }
     fetch("/api/jobs?preview=true")
       .then((r) => r.ok ? r.json() : null)
       .then((d) => {
@@ -3266,7 +3269,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           {/* Desktop: GitHub + Discord */}
           {starCount != null && (
             <a
-              href="https://github.com/srizzon/git-city"
+              href={PROJECT_REPOSITORY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-1.5 border-[3px] border-border bg-bg/70 px-2.5 py-1 text-[10px] backdrop-blur-sm transition-colors hover:border-border-light"
@@ -3276,8 +3279,9 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
               <span className="text-cream">{starCount.toLocaleString()}</span>
             </a>
           )}
+          {PROJECT_CONFIG.discordUrl && (
           <a
-            href="https://discord.gg/2bTjFAkny7"
+            href={PROJECT_CONFIG.discordUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-1.5 border-[3px] border-border bg-bg/70 px-2.5 py-1 text-[10px] backdrop-blur-sm transition-colors hover:border-border-light"
@@ -3286,6 +3290,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
             <span className="hidden sm:inline text-cream">Discord</span>
             {discordMembers != null && <span className="text-cream">{discordMembers.toLocaleString()}</span>}
           </a>
+          )}
         </div>
       )}
 
@@ -3320,10 +3325,10 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                   )}
                 </button>
                 {codingPanelOpen && (() => {
-                  // Creator always first, then up to 4 others
+                  // Configured owner always first, then up to 4 others
                   const allDevs = Array.from(liveByLogin.values());
-                  const creator = allDevs.find((d) => d.githubLogin.toLowerCase() === "srizzon");
-                  const others = allDevs.filter((d) => d.githubLogin.toLowerCase() !== "srizzon");
+                  const creator = allDevs.find((d) => d.githubLogin.toLowerCase() === PROJECT_CONFIG.ownerGithubLogin);
+                  const others = allDevs.filter((d) => d.githubLogin.toLowerCase() !== PROJECT_CONFIG.ownerGithubLogin);
                   const displayDevs = [
                     ...(creator ? [creator] : []),
                     ...others.slice(0, creator ? 4 : 5),
@@ -3337,7 +3342,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                       </div>
                       <div>
                         {displayDevs.map((dev) => {
-                          const isCreator = dev.githubLogin.toLowerCase() === "srizzon";
+                          const isCreator = dev.githubLogin.toLowerCase() === PROJECT_CONFIG.ownerGithubLogin;
                           return (
                             <button
                               key={dev.githubLogin}
@@ -3804,8 +3809,9 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
               <p className="text-[9px] text-muted/50 uppercase tracking-[0.2em]">Community</p>
             </div>
             <div className="divide-y divide-border/40">
+              {PROJECT_CONFIG.discordUrl && (
               <a
-                href="https://discord.gg/2bTjFAkny7"
+                href={PROJECT_CONFIG.discordUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
@@ -3818,8 +3824,9 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                 </span>
                 <span className="text-xs" style={{ color: theme.accent }}>&#8594;</span>
               </a>
+              )}
               <a
-                href="https://github.com/srizzon/git-city"
+                href={PROJECT_REPOSITORY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
@@ -3897,15 +3904,19 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
               </p>
               <p className="pointer-events-auto mt-1 text-[9px] text-cream/50 normal-case hidden sm:block">
                 built by{" "}
-                <a
-                  href="https://x.com/samuelrizzondev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-cream"
-                  style={{ color: theme.accent }}
-                >
-                  @samuelrizzondev
-                </a>
+                {xUrl() ? (
+                  <a
+                    href={xUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-cream"
+                    style={{ color: theme.accent }}
+                  >
+                    @{PROJECT_CONFIG.xHandle.replace(/^@/, "")}
+                  </a>
+                ) : (
+                  <span style={{ color: theme.accent }}>{PROJECT_CONFIG.ownerDisplayName}</span>
+                )}
               </p>
             </div>
 
@@ -3940,7 +3951,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                   const label = target >= 1000 ? `${target / 1000}K` : target.toLocaleString();
                   return (
                     <a
-                      href="https://github.com/srizzon/git-city"
+                      href={PROJECT_REPOSITORY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full max-w-sm group"
@@ -4812,7 +4823,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                           {dropPulling ? "Pulling..." : "Pull"}
                         </button>
                         <a
-                          href={`https://x.com/intent/tweet?text=${encodeURIComponent(`just pulled a ${drop.rarity} drop in Git City 👀 how many are you walking past?`)}&url=${encodeURIComponent("https://thegitcity.com")}`}
+                          href={`https://x.com/intent/tweet?text=${encodeURIComponent(`just pulled a ${drop.rarity} drop in Git City 👀 how many are you walking past?`)}&url=${encodeURIComponent(projectUrl())}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn-press border-2 px-3 py-1.5 text-[10px] transition-colors hover:border-border-light"

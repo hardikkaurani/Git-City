@@ -246,7 +246,7 @@ export default function DashboardClient({ advertiserEmail }: { advertiserEmail: 
             <h1 className="text-2xl text-cream sm:text-3xl">{company?.name ?? "Dashboard"}</h1>
             {company && (
               <Link href={`/jobs/company/${company.slug}`} className="text-xs text-dim transition-colors hover:text-muted normal-case">
-                thegitcity.com/jobs/company/{company.slug}
+                localhost:3001/jobs/company/{company.slug}
               </Link>
             )}
           </div>
@@ -287,7 +287,7 @@ export default function DashboardClient({ advertiserEmail }: { advertiserEmail: 
             <div>
               <label htmlFor="setup-url" className="text-xs text-cream">Profile URL <span className="text-lime">*</span></label>
               <div className="mt-1.5 flex items-center border-[3px] border-border bg-bg">
-                <span className="shrink-0 px-3 text-xs text-dim normal-case">thegitcity.com/jobs/company/</span>
+                <span className="shrink-0 px-3 text-xs text-dim normal-case">localhost:3001/jobs/company/</span>
                 <input id="setup-url" value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))} placeholder="acme-corp" className="w-full bg-transparent px-2 py-3 text-sm text-cream normal-case outline-none" />
               </div>
             </div>

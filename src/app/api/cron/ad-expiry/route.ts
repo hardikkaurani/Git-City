@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
         try {
           const endsAt = new Date(ad.ends_at);
           const daysLeft = Math.max(1, Math.ceil((endsAt.getTime() - now.getTime()) / 86_400_000));
-          const trackingUrl = `https://thegitcity.com/advertise/track/${ad.tracking_token}`;
+          const trackingUrl = `http://localhost:3001/advertise/track/${ad.tracking_token}`;
 
           const stats = await getAdStats(ad.id);
 
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
             ad.purchaser_email,
             ad.brand ?? "Your Ad",
             stats,
-            "https://thegitcity.com/advertise",
+            "http://localhost:3001/advertise",
           );
 
           await sb

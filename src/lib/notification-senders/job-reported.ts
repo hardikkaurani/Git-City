@@ -2,7 +2,7 @@ import { sendCompanyEmail } from "@/lib/jobs/send-company-email";
 import { buildButton, escapeHtml } from "@/lib/email-template";
 import { getAdminNotificationEmail } from "@/lib/jobs/admin-email";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 /**
  * Email sent to the company when their listing is auto-paused due to reports.
@@ -32,7 +32,7 @@ export async function sendJobReportedEmail(
     subject: `Your listing was paused for review: ${listingTitle}`,
     html: bodyHtml,
     text: `Your listing was paused for review: ${listingTitle}\n\nYour listing has been temporarily paused after receiving multiple reports from the community.\n\nOur team will review it shortly. If everything checks out, it will be reactivated automatically. If changes are needed, we'll reach out with details.\n\nView Dashboard: ${BASE_URL}/jobs/dashboard\n\nIf you think this was a mistake, reply to this email.`,
-    replyTo: "support@thegitcity.com",
+    replyTo: "hardikkaurani1@gmail.com",
   });
 }
 

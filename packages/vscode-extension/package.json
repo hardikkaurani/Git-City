@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/hardikkaurani/Git-City"
   },
-  "homepage": "https://www.thegitcity.com",
+  "homepage": "http://localhost:3001",
   "bugs": {
     "url": "https://github.com/hardikkaurani/Git-City/issues"
   },
@@ -49,7 +49,7 @@
         },
         "gitCity.apiUrl": {
           "type": "string",
-          "default": "https://www.thegitcity.com",
+          "default": "http://localhost:3001",
           "description": "Git City API URL (changing this sends your API key to a different server)",
           "scope": "application"
         },

@@ -1,7 +1,7 @@
 import { sendCompanyEmail } from "@/lib/jobs/send-company-email";
 import { buildButton, escapeHtml } from "@/lib/email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 /**
  * Email sent to the company when their job listing is rejected by admin.
@@ -36,6 +36,6 @@ export async function sendJobRejectedEmail(
     subject: `Listing not approved: ${listingTitle}`,
     html: bodyHtml,
     text: `Listing not approved: ${listingTitle}\n\nYour job listing was not approved after review.\n\nReason: ${reason}\n\nYou can edit your listing and resubmit it for review from your dashboard.\n\nEdit Listing: ${BASE_URL}/jobs/dashboard\n\nIf you think this was a mistake, reply to this email and we'll take another look.`,
-    replyTo: "support@thegitcity.com",
+    replyTo: "hardikkaurani1@gmail.com",
   });
 }

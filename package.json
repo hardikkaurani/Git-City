@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Your GitHub profile as a 3D pixel art building in an interactive city",
-  "homepage": "https://thegitcity.com",
+  "homepage": "http://localhost:3001",
   "repository": {
     "type": "git",
     "url": "https://github.com/hardikkaurani/Git-City"
@@ -36,6 +36,7 @@
     "@react-three/postprocessing": "^3.0.4",
     "@reown/appkit": "^1.8.19",
     "@reown/appkit-adapter-wagmi": "^1.8.19",
+    "@solana/kit": "^6.9.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.97.0",
     "@tanstack/react-query": "^5.100.5",
@@ -57,13 +58,14 @@
     "postprocessing": "^6.38.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "readable-stream": "^4.7.0",
     "resend": "^6.9.3",
     "server-only": "^0.0.1",
     "stripe": "^20.3.1",
     "svix": "^1.89.0",
     "three": "^0.183.0",
     "viem": "^2.48.4",
-    "wagmi": "^3.6.16"
+    "wagmi": "^2.13.8"
   },
   "overrides": {
     "@wagmi/core": "^2.22.1",

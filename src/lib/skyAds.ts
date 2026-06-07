@@ -1,3 +1,5 @@
+import { projectUrl, publicUrlForDisplay } from "@/config/project";
+
 export type AdVehicle = "plane" | "blimp" | "billboard" | "rooftop_sign" | "led_wrap" | "landmark";
 
 export interface SkyAd {
@@ -20,7 +22,7 @@ export const MAX_LED_WRAPS = 10;
 export const MAX_LANDMARKS = 3;
 export const MAX_TEXT_LENGTH = 80;
 
-const ALLOWED_LINK_PATTERN = /^(https:\/\/|mailto:)/;
+const ALLOWED_LINK_PATTERN = /^(https?:\/\/|mailto:)/;
 const HEX_COLOR_PATTERN = /^#[0-9a-fA-F]{6}$/;
 
 export function isBuildingAd(vehicle: string): vehicle is "billboard" | "rooftop_sign" | "led_wrap" {
@@ -120,12 +122,12 @@ export function trackAdEvents(adId: string, eventTypes: ("impression" | "click" 
 export const DEFAULT_SKY_ADS: SkyAd[] = [
   {
     id: "gitcity",
-    text: "THEGITCITY.COM ★ YOUR CODE, YOUR CITY ★ THEGITCITY.COM",
+    text: `${publicUrlForDisplay().toUpperCase()} ★ YOUR CODE, YOUR CITY ★ ${publicUrlForDisplay().toUpperCase()}`,
     brand: "Git City",
     description: "A city built from GitHub contributions. Search your username and find your building among thousands of developers.",
     color: "#f8d880",
     bgColor: "#1a1018",
-    link: "https://thegitcity.com",
+    link: projectUrl(),
     vehicle: "plane",
     priority: 100,
   },
@@ -136,7 +138,7 @@ export const DEFAULT_SKY_ADS: SkyAd[] = [
     description: "Want your brand flying over Git City? Planes, blimps, your colors. Get in touch!",
     color: "#f8d880",
     bgColor: "#1a1018",
-    link: "https://thegitcity.com/advertise",
+    link: projectUrl("/advertise"),
     vehicle: "plane",
     priority: 10,
   },

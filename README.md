@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://thegitcity.com">thegitcity.com</a>
+  <a href="http://localhost:3001">localhost:3001</a>
 </p>
 
 <p align="center">
@@ -168,5 +168,5 @@ Create a token, copy it once, and place it in `GITHUB_TOKEN` inside `.env.local`
 ---
 
 <p align="center">
-  Hardik Kaurani
+  Built by <a href="https://x.com/hardikkaurani">@hardikkaurani</a>
 </p>

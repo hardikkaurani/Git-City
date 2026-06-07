@@ -522,7 +522,7 @@ function SlideFounder() {
               SR
             </div>
             <div>
-              <p className="text-2xl text-cream sm:text-3xl">Samuel Rizzon</p>
+              <p className="text-2xl text-cream sm:text-3xl">Hardik Kaurani</p>
               <p className="mt-1 text-sm text-muted normal-case sm:text-base">
                 Solo Founder & Full-Stack Developer
               </p>
@@ -577,7 +577,7 @@ function SlideVision() {
           <span style={{ color: ACCENT }}>city</span>.
         </p>
         <p className="mt-4 text-sm text-muted normal-case sm:text-base">
-          thegitcity.com
+          localhost:3001
         </p>
       </div>
     </div>
@@ -608,22 +608,22 @@ function SlideContact() {
       </p>
       <div className="flex flex-col gap-5">
         <a
-          href="https://x.com/srizzon"
+          href="https://x.com/hardikkaurani"
           target="_blank"
           rel="noopener noreferrer"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          @srizzon on X
+          @hardikkaurani on X
         </a>
         <a
-          href="mailto:samuelrizzondev@gmail.com"
+          href="mailto:hardikkaurani1@gmail.com"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          samuelrizzondev@gmail.com
+          hardikkaurani1@gmail.com
         </a>
       </div>
       <p className="mt-4 text-sm text-muted normal-case sm:text-base">
-        thegitcity.com
+        localhost:3001
       </p>
     </div>
   );

@@ -10,8 +10,8 @@ import { reownProjectId, wagmiAdapter, wagmiConfig } from "@/lib/wagmi-config";
 const metadata = {
   name: "Git City",
   description: "3D pixel art city built from real GitHub data.",
-  url: "https://thegitcity.com",
-  icons: ["https://thegitcity.com/apple-icon.png"],
+  url: "http://localhost:3001",
+  icons: ["http://localhost:3001/apple-icon.png"],
 };
 
 if (typeof window !== "undefined") {

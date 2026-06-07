@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
   const resend = getResend();
   await resend.emails.send({
-    from: "Git City <noreply@thegitcity.com>",
+    from: "Git City <noreply@example.com>",
     to: email,
     subject: "Sign in to Git City",
     html: wrapInBaseTemplate(`

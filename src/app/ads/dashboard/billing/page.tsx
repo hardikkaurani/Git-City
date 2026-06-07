@@ -106,8 +106,8 @@ export default function BillingPage() {
             </button>
             <p className="mt-4 text-sm text-muted normal-case">
               Need help?{" "}
-              <a href="mailto:samuelrizzondev@gmail.com" className="transition-colors hover:text-cream" style={{ color: ACCENT }}>
-                samuelrizzondev@gmail.com
+              <a href="mailto:hardikkaurani1@gmail.com" className="transition-colors hover:text-cream" style={{ color: ACCENT }}>
+                hardikkaurani1@gmail.com
               </a>
             </p>
           </div>

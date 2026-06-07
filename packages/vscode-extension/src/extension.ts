@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("gitCity.login", async () => {
       const key = await vscode.window.showInputBox({
-        prompt: "Paste your API key from thegitcity.com",
+        prompt: "Paste your API key from localhost:3001",
         placeHolder: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
         password: true,
         ignoreFocusOut: true,

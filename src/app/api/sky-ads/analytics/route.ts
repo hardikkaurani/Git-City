@@ -8,7 +8,7 @@ import { getGithubLoginFromUser, isAdminGithubLogin } from "@/lib/admin";
 // To get per-ad numbers: filter Himetrica events by ad_id property.
 const HISTORICAL_BASELINES: Record<string, { impressions: number; clicks: number; cta_clicks: number }> = {
   "gitcity":   { impressions: 311161, clicks: 2527, cta_clicks: 1110 },
-  "samuel":    { impressions: 280045, clicks: 2274, cta_clicks: 999 },
+  "hardik":    { impressions: 280045, clicks: 2274, cta_clicks: 999 },
   "build":     { impressions: 248929, clicks: 2022, cta_clicks: 888 },
   "advertise": { impressions: 31116,  clicks: 253,  cta_clicks: 110 },
 };

@@ -173,15 +173,15 @@ export default function ApiKeysPage() {
         <div className="mt-3 space-y-3 text-xs text-muted normal-case">
           <div>
             <p className="text-sm text-cream">List your ads</p>
-            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; https://thegitcity.com/api/v1/ads</code>
+            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; http://localhost:3001/api/v1/ads</code>
           </div>
           <div>
             <p className="text-sm text-cream">Get stats for an ad</p>
-            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; https://thegitcity.com/api/v1/ads/AD_ID/stats?period=30d</code>
+            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; http://localhost:3001/api/v1/ads/AD_ID/stats?period=30d</code>
           </div>
           <div>
             <p className="text-sm text-cream">Get audience profile</p>
-            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; https://thegitcity.com/api/v1/ads/AD_ID/audience</code>
+            <code className="mt-1 block overflow-x-auto bg-bg px-3 py-2">curl -H &quot;Authorization: Bearer YOUR_KEY&quot; http://localhost:3001/api/v1/ads/AD_ID/audience</code>
           </div>
         </div>
       </div>

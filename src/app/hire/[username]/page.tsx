@@ -285,7 +285,7 @@ export default async function PortfolioPage({ params }: Props) {
             {/* Footer */}
             <div className="pt-4 text-center">
               <p className="text-xs text-muted/30 normal-case">
-                GitHub data verified · thegitcity.com/hire/{dev.github_login}
+                GitHub data verified · localhost:3001/hire/{dev.github_login}
               </p>
             </div>
 

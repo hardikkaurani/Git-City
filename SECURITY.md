@@ -17,11 +17,11 @@ We take security seriously. If you discover a vulnerability in Git City, please 
 
 Please report vulnerabilities by emailing the maintainer directly or using GitHub's private security advisory feature:
 
-1. Go to the [Security Advisories](https://github.com/srizzon/git-city/security/advisories) page
+1. Go to the [Security Advisories](https://github.com/hardikkaurani/Git-City/security/advisories) page
 2. Click **"Report a vulnerability"**
 3. Fill in the details of the issue
 
-Alternatively, you can reach out to the maintainer via [X/Twitter](https://x.com/samuelrizzondev).
+Alternatively, you can reach out to the maintainer via [X/Twitter](https://x.com/hardikkaurani).
 
 ### What to Include
 

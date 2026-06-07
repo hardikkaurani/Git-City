@@ -1,7 +1,7 @@
 import { sendNotificationAsync } from "../notifications";
 import { buildButton } from "../email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 const MILESTONE_MESSAGES: Record<number, { emoji: string; tagline: string }> = {
   7:   { emoji: "🔥", tagline: "You're on fire!" },

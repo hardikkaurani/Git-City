@@ -1,7 +1,7 @@
 import { sendNotificationAsync } from "../notifications";
 import { buildButton, escapeHtml } from "../email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 /**
  * Notification sent to a developer when a company marks them as hired.

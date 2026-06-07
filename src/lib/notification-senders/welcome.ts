@@ -1,7 +1,7 @@
 import { sendNotificationAsync } from "../notifications";
 import { buildButton } from "../email-template";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 export function sendWelcomeNotification(devId: number, login: string, rank?: number) {
   const rankText = rank ? `You're developer #${rank.toLocaleString()}.` : "";

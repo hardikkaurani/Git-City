@@ -105,7 +105,7 @@ export default async function UnsubscribePage({
             Notification settings
           </a>
           <a
-            href="https://thegitcity.com"
+            href="http://localhost:3001"
             style={{ color: "#666", fontSize: 14, textDecoration: "underline" }}
           >
             Back to Git City

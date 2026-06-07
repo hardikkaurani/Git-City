@@ -38,7 +38,7 @@
     if (rev) body.revenue = parseFloat(rev);
   }
 
-  var url = "https://thegitcity.com/api/v1/ads/conversions";
+  var url = "http://localhost:3001/api/v1/ads/conversions";
   if (typeof navigator !== "undefined" && navigator.sendBeacon) {
     navigator.sendBeacon(url, new Blob([JSON.stringify(body)], { type: "application/json" }));
   } else {

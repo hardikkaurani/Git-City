@@ -2,7 +2,7 @@ import { sendCompanyEmail } from "@/lib/jobs/send-company-email";
 import { buildButton, escapeHtml } from "@/lib/email-template";
 import { getAdminNotificationEmail } from "@/lib/jobs/admin-email";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 /**
  * Email sent to admin when a new job listing needs review.

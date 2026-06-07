@@ -134,7 +134,7 @@ export async function sendWeeklyAdReport(report: AdReport) {
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 28px auto 0;">
       <tr>
         <td align="center" bgcolor="#c8e64a" style="border-radius: 4px;">
-          <a href="https://thegitcity.com/ads/dashboard" style="display: inline-block; padding: 14px 32px; background-color: #c8e64a; border-radius: 4px; color: #111111; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; letter-spacing: 0.5px;">
+          <a href="http://localhost:3001/ads/dashboard" style="display: inline-block; padding: 14px 32px; background-color: #c8e64a; border-radius: 4px; color: #111111; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; letter-spacing: 0.5px;">
             View Full Dashboard
           </a>
         </td>
@@ -146,7 +146,7 @@ export async function sendWeeklyAdReport(report: AdReport) {
   `;
 
   await resend.emails.send({
-    from: "Git City <noreply@thegitcity.com>",
+    from: "Git City <noreply@example.com>",
     to: report.advertiserEmail,
     subject: `Your Git City ads: ${fmtNum(report.totals.impressions)} views this week`,
     html: wrapInBaseTemplate(bodyHtml),

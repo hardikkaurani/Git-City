@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { PROJECT_CONFIG, PROJECT_REPOSITORY_URL } from "@/config/project";
 
 const ETH_ADDRESS = "0x8C24A2b54128bC0717F533E6DA7338be30b9f732";
 const ACCENT = "#c8e64a";
@@ -102,23 +103,24 @@ function SupportContent() {
             </Link>
           </div>
 
-          {/* Discord */}
-          <div className="border-[3px] border-border bg-bg-raised p-5 sm:p-6">
-            <p className="text-sm text-cream">
-              <span style={{ color: ACCENT }}>02.</span> Join the Discord
-            </p>
-            <p className="mt-2 text-xs text-muted normal-case">
-              Talk to other devs, follow updates, and help shape what gets built next.
-            </p>
-            <a
-              href="https://discord.gg/2bTjFAkny7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-press mt-4 inline-block border-2 border-border px-5 py-2 text-xs text-muted transition-colors hover:border-border-light hover:text-cream"
-            >
-              discord.gg/2bTjFAkny7
-            </a>
-          </div>
+          {PROJECT_CONFIG.discordUrl && (
+            <div className="border-[3px] border-border bg-bg-raised p-5 sm:p-6">
+              <p className="text-sm text-cream">
+                <span style={{ color: ACCENT }}>02.</span> Join the Discord
+              </p>
+              <p className="mt-2 text-xs text-muted normal-case">
+                Talk to other devs, follow updates, and help shape what gets built next.
+              </p>
+              <a
+                href={PROJECT_CONFIG.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-press mt-4 inline-block border-2 border-border px-5 py-2 text-xs text-muted transition-colors hover:border-border-light hover:text-cream"
+              >
+                {PROJECT_CONFIG.discordUrl.replace(/^https?:\/\//, "")}
+              </a>
+            </div>
+          )}
 
           {/* GitHub Star */}
           <div className="border-[3px] border-border bg-bg-raised p-5 sm:p-6">
@@ -129,12 +131,12 @@ function SupportContent() {
               A star helps more developers discover Git City. Takes one click.
             </p>
             <a
-              href="https://github.com/srizzon/git-city"
+              href={PROJECT_REPOSITORY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-press mt-4 inline-block border-2 border-border px-5 py-2 text-xs text-muted transition-colors hover:border-border-light hover:text-cream"
             >
-              github.com/srizzon/git-city
+              {PROJECT_REPOSITORY_URL.replace(/^https?:\/\//, "")}
             </a>
           </div>
 
@@ -194,12 +196,12 @@ function SupportContent() {
               <span style={{ color: ACCENT }}>05.</span> GitHub Sponsors
             </p>
             <a
-              href="https://github.com/sponsors/srizzon"
+              href="https://github.com/sponsors/hardikkaurani"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-press mt-4 inline-block border-2 border-border px-5 py-2 text-xs text-muted transition-colors hover:border-border-light hover:text-cream"
             >
-              github.com/sponsors/srizzon
+              github.com/sponsors/hardikkaurani
             </a>
           </div>
 

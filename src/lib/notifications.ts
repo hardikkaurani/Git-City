@@ -57,7 +57,7 @@ export interface SendResult {
 
 // ── Config ──
 
-const FROM = "Git City <noreply@thegitcity.com>";
+const FROM = "Git City <noreply@example.com>";
 const HMAC_SECRET = (() => {
   const secret = process.env.UNSUBSCRIBE_HMAC_SECRET;
   if (!secret) {
@@ -65,7 +65,7 @@ const HMAC_SECRET = (() => {
   }
   return secret;
 })();
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://thegitcity.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 const RATE_LIMITS: Record<Channel, { perHour: number; perDay: number }> = {
   email: { perHour: 20, perDay: 50 },

@@ -1,7 +1,7 @@
 import { getResend } from "@/lib/resend";
 import { wrapInBaseTemplate } from "@/lib/email-template";
 
-const FROM = "Git City Jobs <noreply@thegitcity.com>";
+const FROM = "Git City Jobs <noreply@example.com>";
 
 /**
  * Send an email to a company (advertiser). Wraps Resend with:
@@ -25,7 +25,7 @@ export async function sendCompanyEmail(opts: {
     text: opts.text,
     replyTo: opts.replyTo,
     headers: {
-      "List-Unsubscribe": "<mailto:support@thegitcity.com?subject=Unsubscribe>",
+      "List-Unsubscribe": "<mailto:hardikkaurani1@gmail.com?subject=Unsubscribe>",
     },
   });
 }

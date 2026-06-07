@@ -3,7 +3,7 @@ import { getResend } from "@/lib/resend";
 import { wrapInBaseTemplate, buildButton, escapeHtml } from "@/lib/email-template";
 import type { Landmark } from "./types";
 
-const BASE_URL = "https://thegitcity.com";
+const BASE_URL = "http://localhost:3001";
 const MONTHLY_VISITORS =
   process.env.NEXT_PUBLIC_MONTHLY_VISITOR_COUNT ?? "22,642";
 
@@ -48,7 +48,7 @@ export async function sendWelcomeEmail(
   const { subject, html } = renderWelcomeEmail(landmark);
   const resend = getResend();
   await resend.emails.send({
-    from: "Git City <noreply@thegitcity.com>",
+    from: "Git City <noreply@example.com>",
     to: recipients,
     subject,
     html,

@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase-server";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { rateLimit } from "@/lib/rate-limit";
-
-const REPO_OWNER = "srizzon";
-const REPO_NAME = "git-city";
+import { PROJECT_REPOSITORY } from "@/config/project";
 
 function ghHeaders(): HeadersInit {
   const h: HeadersInit = {
@@ -23,7 +21,7 @@ async function isStargazer(login: string): Promise<boolean> {
 
   while (page <= 100) {
     const res = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/stargazers?per_page=100&page=${page}`,
+      `https://api.github.com/repos/${PROJECT_REPOSITORY}/stargazers?per_page=100&page=${page}`,
       { headers: ghHeaders() },
     );
     if (!res.ok) return false;

@@ -594,23 +594,23 @@ export default function AdvertiseLanding({ serverCountry }: AdvertiseLandingProp
         <p className="text-xs text-muted normal-case">
           Questions?{" "}
           <a
-            href="mailto:samuel@thegitcity.com"
+            href="mailto:hardikkaurani1@gmail.com"
             className="transition-colors hover:text-cream"
             style={{ color: ACCENT }}
           >
-            samuel@thegitcity.com
+            hardikkaurani1@gmail.com
           </a>
         </p>
         <p className="mt-4 text-xs text-muted normal-case">
           Built by{" "}
           <a
-            href="https://x.com/samuelrizzondev"
+            href="https://x.com/hardikkaurani"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-cream"
             style={{ color: ACCENT }}
           >
-            @samuelrizzondev
+            @hardikkaurani
           </a>
         </p>
         <p className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10px] text-dim normal-case">
@@ -881,7 +881,7 @@ export default function AdvertiseLanding({ serverCountry }: AdvertiseLandingProp
                   Got it.
                 </p>
                 <p className="mt-3 text-xs leading-relaxed text-muted normal-case">
-                  Samuel will reply to{" "}
+                  Hardik will reply to{" "}
                   <span className="text-cream">{cEmail}</span> with pricing and
                   next steps for your custom 3D building.
                 </p>
@@ -1016,11 +1016,11 @@ export default function AdvertiseLanding({ serverCountry }: AdvertiseLandingProp
                   <p className="text-center text-[9px] text-muted normal-case">
                     Or email{" "}
                     <a
-                      href="mailto:samuel@thegitcity.com"
+                      href="mailto:hardikkaurani1@gmail.com"
                       className="hover:text-cream"
                       style={{ color: ACCENT }}
                     >
-                      samuel@thegitcity.com
+                      hardikkaurani1@gmail.com
                     </a>{" "}
                     directly.
                   </p>

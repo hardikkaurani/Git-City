@@ -3,8 +3,8 @@ import { getResend } from "@/lib/resend";
 import { rateLimit } from "@/lib/rate-limit";
 import { escapeHtml, wrapInBaseTemplate } from "@/lib/email-template";
 
-const TO = "samuel@thegitcity.com";
-const FROM = "Git City <noreply@thegitcity.com>";
+const TO = "hardikkaurani1@gmail.com";
+const FROM = "Git City <noreply@example.com>";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: NextRequest) {
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[sponsorship-contact] failed to send email", err);
     return NextResponse.json(
-      { error: "Failed to send. Email samuel@thegitcity.com directly." },
+      { error: "Failed to send. Email hardikkaurani1@gmail.com directly." },
       { status: 500 },
     );
   }

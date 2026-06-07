@@ -6,6 +6,7 @@ import * as THREE from "three";
 import type { CityBuilding } from "@/lib/github";
 import type { BuildingColors } from "./CityCanvas";
 import { wasAdPointerConsumed } from "./SkyAds";
+import { PROJECT_CONFIG } from "@/config/project";
 
 // ─── Atlas Constants (must match Building3D.tsx) ───────────────
 const ATLAS_SIZE = 2048;
@@ -447,7 +448,7 @@ export default memo(function InstancedBuildings({
         const idx = loginToIdx.get(key);
         if (idx === undefined) continue;
         // Creator gets an overdriven glow (1.5 overshoots the mix, extra bright)
-        arr[idx] = key === "srizzon" ? 1.5 : 1.0;
+        arr[idx] = key === PROJECT_CONFIG.ownerGithubLogin ? 1.5 : 1.0;
         lit.push(idx);
       }
     }

@@ -5,10 +5,10 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { CityBuilding } from "@/lib/github";
 import type { LiveSession } from "@/lib/useCodingPresence";
+import { PROJECT_CONFIG } from "@/config/project";
 
 const DOT_SIZE = 4;
 const CREATOR_DOT_SIZE = 5;
-const CREATOR_LOGIN = "srizzon";
 const _matrix = new THREE.Matrix4();
 const _pos = new THREE.Vector3();
 const _quat = new THREE.Quaternion();
@@ -42,7 +42,7 @@ export default function LiveDots({ buildings, liveByLogin }: LiveDotsProps) {
       const key = login.toLowerCase();
       const idx = loginToIdx.get(key);
       if (idx === undefined) continue;
-      if (key === CREATOR_LOGIN) {
+      if (key === PROJECT_CONFIG.ownerGithubLogin) {
         creator = idx;
       } else {
         regular.push(idx);
