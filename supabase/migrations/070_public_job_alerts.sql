@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS job_alert_subscriptions (
   tech_stack   text[] NOT NULL DEFAULT '{}',
   verified     boolean NOT NULL DEFAULT false,
   verify_token text UNIQUE,
-  unsubscribe_token text NOT NULL DEFAULT md5(random()::text || clock_timestamp()::text)
+  unsubscribe_token text NOT NULL DEFAULT md5(random()::text || clock_timestamp()::text),
   developer_id bigint REFERENCES developers(id) ON DELETE SET NULL,
   last_sent_at timestamptz,
   created_at   timestamptz NOT NULL DEFAULT now()
