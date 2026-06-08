@@ -1,4 +1,4 @@
-# Git City
+# Git City !
 
 3D pixel art city built from real GitHub data. Buildings represent developers: height = contributions, width = repos, lit windows = recent activity.
 
