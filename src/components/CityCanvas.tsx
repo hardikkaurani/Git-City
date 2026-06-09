@@ -2350,7 +2350,21 @@ export default function CityCanvas({ buildings, plazas, decorations, river, brid
     <Canvas
       camera={{ position: [-400, 450, -600], fov: 55, near: 0.5, far: 15000 }}
       dpr={dpr}
-      gl={{ antialias: false, powerPreference: "high-performance", toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.3 }}
+      gl={(parameters) => {
+        const canvas = (parameters as any).canvas;
+        const glContext =
+          canvas.getContext("webgl2") ||
+          canvas.getContext("webgl") ||
+          canvas.getContext("experimental-webgl");
+        if (!glContext) throw new Error("WebGL not supported");
+        return new THREE.WebGLRenderer({
+          ...parameters,
+          context: glContext as WebGL2RenderingContext | WebGLRenderingContext,
+          antialias: false,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.3,
+        });
+      }}
       style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
     >
       {showPerf && <Stats />}

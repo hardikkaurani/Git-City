@@ -1428,9 +1428,8 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
       } catch { /* fall through to chunked */ }
     }
 
-    // Local dev has no storage snapshot — read straight from the DB so the
-    // city renders without a snapshot-generation step. Local-only.
-    if (allDevs.length === 0 && isLocalSupabase()) {
+    // Fall back to API if storage snapshot failed to fetch or parse
+    if (allDevs.length === 0) {
       try {
         const res = await fetch("/api/city?from=0&to=1000");
         if (res.ok) {
@@ -1555,9 +1554,8 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           }
         } catch { /* snapshot failed */ }
 
-        // Local dev has no storage snapshot — read straight from the DB so the
-        // city renders without a snapshot-generation step. Local-only.
-        if ((!allDevs || allDevs.length === 0) && isLocalSupabase()) {
+        // Fall back to API if storage snapshot failed to fetch or parse
+        if (!allDevs || allDevs.length === 0) {
           try {
             const res = await fetch("/api/city?from=0&to=1000");
             if (res.ok) {
