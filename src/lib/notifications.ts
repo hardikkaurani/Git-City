@@ -58,13 +58,7 @@ export interface SendResult {
 // ── Config ──
 
 const FROM = "Git City <noreply@example.com>";
-const HMAC_SECRET = (() => {
-  const secret = process.env.UNSUBSCRIBE_HMAC_SECRET;
-  if (!secret) {
-    throw new Error("[notifications] UNSUBSCRIBE_HMAC_SECRET is required but not set.");
-  }
-  return secret;
-})();
+
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
 
 const RATE_LIMITS: Record<Channel, { perHour: number; perDay: number }> = {
@@ -693,7 +687,7 @@ export function buildUnsubscribeUrl(devId: number, category: NotificationCategor
 
 export function generateHmacToken(devId: number, category: string): string {
   return crypto
-    .createHmac("sha256", HMAC_SECRET)
+    .createHmac("sha256", process.env.UNSUBSCRIBE_HMAC_SECRET!)
     .update(`${devId}:${category}`)
     .digest("hex")
     .slice(0, 32);
@@ -713,3 +707,4 @@ function escapeBasicHtml(str: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
+
