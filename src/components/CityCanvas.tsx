@@ -2357,13 +2357,14 @@ export default function CityCanvas({ buildings, plazas, decorations, river, brid
           canvas.getContext("webgl") ||
           canvas.getContext("experimental-webgl");
         if (!glContext) throw new Error("WebGL not supported");
-        return new THREE.WebGLRenderer({
+        const renderer = new THREE.WebGLRenderer({
           ...parameters,
           context: glContext as WebGL2RenderingContext | WebGLRenderingContext,
           antialias: false,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.3,
         });
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.3;
+        return renderer;
       }}
       style={{ position: "fixed", inset: 0, width: "100vw", height: "100vh" }}
     >
