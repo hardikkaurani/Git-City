@@ -1,8 +1,8 @@
-<h1 align="center">Git City</h1>
+<h1 align="center">// Git City //</h1>
 
 <p align="center">
-  <a href="https://the-git-city.vercel.app" target="_blank">
-    <img src="public/og-image.png" alt="Git City — Where Code Builds Cities" width="800" />
+  <a href="https://the-git-city-dn5jb2ak5-hardikkaurani1-4236s-projects.vercel.app" target="_blank">
+    <img src="./public/git-city-live.gif" alt="Git City" width="800" />
   </a>
 </p>
 
