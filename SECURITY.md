@@ -21,7 +21,7 @@ Please report vulnerabilities by emailing the maintainer directly or using GitHu
 2. Click **"Report a vulnerability"**
 3. Fill in the details of the issue
 
-Alternatively, you can reach out to the maintainer via [X/Twitter](https://x.com/hardikkaurani).
+Alternatively, you can reach out to the maintainer via [X/Twitter]https://x.com/HKaurani_01.
 
 ### What to Include
 
