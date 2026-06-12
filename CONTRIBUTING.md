@@ -13,7 +13,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-The app runs on [http://localhost:3001](http://localhost:3001).
+The app runs on https://the-git-city.vercel.app/.
 
 ## Requirements
 
