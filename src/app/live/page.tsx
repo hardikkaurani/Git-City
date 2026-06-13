@@ -154,9 +154,8 @@ export default function LivePage() {
             Every dev who codes keeps a building lit. Install Pulse to power yours.
           </p>
           <a
-            href="https://marketplace.visualstudio.com/items?itemName=hardikkaurani.gitcity"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/gitcity-0.3.0.vsix"
+            download
             className="btn-press inline-block px-8 py-3 text-xs text-bg"
             style={{ backgroundColor: "#4ade80", boxShadow: "2px 2px 0 0 #16a34a" }}
           >
