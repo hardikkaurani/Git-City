@@ -21,11 +21,45 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/?error=auth_failed`);
   }
 
-  const githubLogin = (
+  let githubLogin = (
     data.user.user_metadata.user_name ??
     data.user.user_metadata.preferred_username ??
     ""
   ).toLowerCase();
+
+  if (!githubLogin) {
+    const email = data.user.email;
+    const fullName = data.user.user_metadata.full_name || data.user.user_metadata.name;
+    let baseHandle = "user";
+    if (fullName) {
+      baseHandle = fullName.replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
+    } else if (email) {
+      baseHandle = email.split("@")[0].replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
+    }
+    baseHandle = baseHandle.slice(0, 30);
+    if (!baseHandle) baseHandle = "user";
+
+    const admin = getSupabaseAdmin();
+    const { data: existing } = await admin
+      .from("developers")
+      .select("id, claimed_by")
+      .eq("github_login", baseHandle)
+      .maybeSingle();
+
+    if (existing && existing.claimed_by !== data.user.id) {
+      githubLogin = `${baseHandle}-${data.user.id.slice(0, 5)}`;
+    } else {
+      githubLogin = baseHandle;
+    }
+
+    // Sync generated username to user metadata so the client-side session immediately has it.
+    await supabase.auth.updateUser({
+      data: {
+        user_name: githubLogin,
+        preferred_username: githubLogin,
+      },
+    });
+  }
 
   // Create/claim the building + XP + rank + feed + achievements + referral.
   // Shared with the local dev-login route (src/app/api/dev/login).

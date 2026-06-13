@@ -66,9 +66,8 @@ export default function RoadmapClient({
   const pct = Math.round((done / total) * 100);
   const [showSignIn, setShowSignIn] = useState(false);
 
-  const handleSignIn = useCallback(async () => {
-    const supabase = createBrowserSupabase();
-    await signInWithGitHub(supabase, `${window.location.origin}/auth/callback`);
+  const handleSignIn = useCallback(() => {
+    window.location.href = `/auth?redirect=${encodeURIComponent("/roadmap")}`;
   }, []);
 
   return (

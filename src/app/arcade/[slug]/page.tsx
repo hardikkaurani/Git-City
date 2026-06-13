@@ -1026,9 +1026,8 @@ export default function ArcadeRoomPage({
             </p>
             <div className="mt-6">
               <button
-                onClick={async () => {
-                  const supabase = createBrowserSupabase();
-                  await signInWithGitHub(supabase, `${window.location.origin}/arcade`);
+                onClick={() => {
+                  window.location.href = `/auth?redirect=${encodeURIComponent(`/arcade/${slug || ""}`)}`;
                 }}
                 className="cursor-pointer rounded-[4px] px-6 py-2.5 text-[11px] font-bold tracking-widest uppercase transition-all hover:brightness-95"
                 style={{
@@ -1037,7 +1036,7 @@ export default function ArcadeRoomPage({
                   boxShadow: "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)",
                 }}
               >
-                Sign in with GitHub
+                Sign In
               </button>
             </div>
             <p className="mt-4 text-[9px] text-[#a09888]">

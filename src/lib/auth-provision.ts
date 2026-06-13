@@ -36,7 +36,36 @@ export async function provisionDeveloperOnLogin(
   if (!existingDev) {
     // ─── New dev: create building from GitHub data on login ───
     try {
-      const ghData = await fetchGitHubDeveloperData(githubLogin, { allowEmpty: true });
+      let ghData;
+      try {
+        ghData = await fetchGitHubDeveloperData(githubLogin, { allowEmpty: true });
+      } catch (e) {
+        console.warn(`Could not fetch GitHub data for ${githubLogin}, using mock data:`, e);
+        let fullName = githubLogin;
+        let avatarUrl = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${githubLogin}`;
+        try {
+          const { data: { user } } = await admin.auth.admin.getUserById(authUserId);
+          if (user?.user_metadata) {
+            fullName = user.user_metadata.full_name || user.user_metadata.name || githubLogin;
+            avatarUrl = user.user_metadata.avatar_url || avatarUrl;
+          }
+        } catch { /* ignore */ }
+
+        ghData = {
+          github_login: githubLogin,
+          github_id: Math.floor(Math.random() * 90000000) + 10000000,
+          name: fullName,
+          avatar_url: avatarUrl,
+          bio: "Git City resident",
+          contributions: 1,
+          public_repos: 0,
+          total_stars: 0,
+          primary_language: "JavaScript",
+          top_repos: [],
+          github_etag: null,
+          contributions_total: 1,
+        };
+      }
 
       const { data: created, error: createErr } = await admin
         .from("developers")

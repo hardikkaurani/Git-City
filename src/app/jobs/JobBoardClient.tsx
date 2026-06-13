@@ -279,11 +279,11 @@ export default function JobBoardClient({ username, hasProfile, pageTitle, pageDe
               </>
             ) : (
               <Link
-                href="/api/auth/github?redirect=/jobs"
+                href="/auth?redirect=/jobs"
                 className="btn-press bg-lime px-4 py-2 text-xs text-bg"
                 style={{ boxShadow: "3px 3px 0 0 #5a7a00" }}
               >
-                Sign in with GitHub
+                Sign In
               </Link>
             )}
           </div>

@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { Session } from "@supabase/supabase-js";
 import { createBrowserSupabase } from "@/lib/supabase";
-import { signInWithGitHub, isLocalSupabase } from "@/lib/sign-in";
+import { signInWithGitHub, signInWithGoogle, isLocalSupabase } from "@/lib/sign-in";
 import {
   generateCityLayout,
   DISTRICT_NAMES,
@@ -1018,20 +1018,19 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
   }, [searchParams]);
 
   // Forward ref from localStorage to auth callback URL
-  const handleSignInWithRef = useCallback(async () => {
+  const handleSignInWithRef = useCallback(() => {
     trackSignInClicked("city");
-    const supabase = createBrowserSupabase();
-    let redirectTo = `${window.location.origin}/auth/callback`;
+    let dest = "/auth";
     try {
       const raw = localStorage.getItem("gc_ref");
       if (raw) {
         const { login, expires } = JSON.parse(raw);
         if (Date.now() < expires && login) {
-          redirectTo += `?ref=${encodeURIComponent(login)}`;
+          dest += `?ref=${encodeURIComponent(login)}`;
         }
       }
     } catch { /* ignore */ }
-    await signInWithGitHub(supabase, redirectTo);
+    window.location.href = dest;
   }, []);
 
   // Fetch activity feed on mount + poll every 60s
@@ -3687,7 +3686,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                 className="btn-press w-full py-3 text-xs text-bg"
                 style={{ backgroundColor: theme.accent, boxShadow: `2px 2px 0 0 ${theme.shadow}` }}
               >
-                Sign in with GitHub
+                Sign In
               </button>
             </div>
           )}
@@ -4039,7 +4038,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                     boxShadow: `3px 3px 0 0 ${theme.shadow}`,
                   }}
                 >
-                  Sign in with GitHub
+                  Sign In
                 </button>
                 <button
                   onClick={() => {
@@ -4455,7 +4454,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                 boxShadow: `2px 2px 0 0 ${theme.shadow}`,
               }}
             >
-              Sign in with GitHub
+              Sign In
             </button>
             <button
               onClick={() => setSignInPromptVisible(false)}

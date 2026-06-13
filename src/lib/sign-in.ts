@@ -34,3 +34,38 @@ export async function signInWithGitHub(
 
   await supabase.auth.signInWithOAuth({ provider: "github", options: { redirectTo } });
 }
+
+/**
+ * Start Google sign-in.
+ *
+ * @param redirectTo Post-login URL (may carry a `?ref=` for referral credit).
+ */
+export async function signInWithGoogle(
+  supabase: SupabaseClient,
+  redirectTo: string,
+): Promise<void> {
+  if (isLocalSupabase()) {
+    const u = new URL(redirectTo, window.location.origin);
+    const params = new URLSearchParams();
+    if (u.pathname && u.pathname !== "/auth/callback") params.set("next", u.pathname);
+    const ref = u.searchParams.get("ref");
+    if (ref) params.set("ref", ref);
+    // Auto-login as a google-mock user in local environment
+    params.set("login", `google-${Math.floor(Math.random() * 900) + 100}`);
+    const qs = params.toString();
+    window.location.href = `/api/dev/login${qs ? `?${qs}` : ""}`;
+    return;
+  }
+
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo,
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
+  });
+}
+
