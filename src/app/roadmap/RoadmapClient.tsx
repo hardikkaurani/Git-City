@@ -155,13 +155,13 @@ export default function RoadmapClient({
           <p className="mt-6 text-[9px] text-muted normal-case">
             built by{" "}
             <a
-              href="https://x.com/hardikkaurani"
+              href="https://x.com/HKaurani_01"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-cream"
               style={{ color: ACCENT }}
             >
-              @hardikkaurani
+              @HKaurani_01
             </a>
           </p>
         </div>

@@ -517,12 +517,12 @@ function SlideContact() {
           hardikkaurani1@gmail.com
         </a>
         <a
-          href="https://x.com/hardikkaurani"
+          href="https://x.com/HKaurani_01"
           target="_blank"
           rel="noopener noreferrer"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          @hardikkaurani on X
+          @HKaurani_01 on X
         </a>
       </div>
       <p className="mt-4 text-sm text-muted normal-case sm:text-base">

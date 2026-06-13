@@ -19,7 +19,7 @@ export const PROJECT_CONFIG = {
   discordInviteApiUrl: env("NEXT_PUBLIC_DISCORD_INVITE_API_URL", ""),
   contactEmail: env("NEXT_PUBLIC_CONTACT_EMAIL", "hardikkaurani1@gmail.com"),
   supportEmail: env("NEXT_PUBLIC_SUPPORT_EMAIL", "hardikkaurani1@gmail.com"),
-  xHandle: env("NEXT_PUBLIC_X_HANDLE", ""),
+  xHandle: env("NEXT_PUBLIC_X_HANDLE", "@HKaurani_01"),
   emailFrom: env("EMAIL_FROM", env("NEXT_PUBLIC_EMAIL_FROM", "Git City <noreply@example.com>")),
   adminNotificationEmail: env("ADMIN_NOTIFICATION_EMAIL", "hardikkaurani1@gmail.com"),
 };

@@ -450,13 +450,13 @@ export default function PrivacyPage() {
               <Li>
                 X / Twitter:{" "}
                 <a
-                  href="https://x.com/hardikkaurani"
+                  href="https://x.com/HKaurani_01"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-cream"
                   style={{ color: ACCENT }}
                 >
-                  @hardikkaurani
+                  @HKaurani_01
                 </a>
               </Li>
             </ul>

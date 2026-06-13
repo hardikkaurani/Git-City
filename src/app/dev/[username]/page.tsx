@@ -55,8 +55,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      creator: "@hardikkaurani",
-      site: "@hardikkaurani",
+      creator: "@HKaurani_01",
+      site: "@HKaurani_01",
     },
   };
 }
@@ -465,13 +465,13 @@ export default async function DevPage({ params }: Props) {
           <p className="text-[9px] text-muted normal-case">
             built by{" "}
             <a
-              href="https://x.com/hardikkaurani"
+              href="https://x.com/HKaurani_01"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-cream"
               style={{ color: accent }}
             >
-              @hardikkaurani
+              @HKaurani_01
             </a>
           </p>
         </div>

@@ -604,13 +604,13 @@ export default function AdvertiseLanding({ serverCountry }: AdvertiseLandingProp
         <p className="mt-4 text-xs text-muted normal-case">
           Built by{" "}
           <a
-            href="https://x.com/hardikkaurani"
+            href="https://x.com/HKaurani_01"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-cream"
             style={{ color: ACCENT }}
           >
-            @hardikkaurani
+            @HKaurani_01
           </a>
         </p>
         <p className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10px] text-dim normal-case">

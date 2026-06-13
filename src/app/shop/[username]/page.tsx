@@ -284,13 +284,13 @@ export default async function ShopPage({ params, searchParams }: Props) {
           <p className="text-[9px] text-muted normal-case">
             built by{" "}
             <a
-              href="https://x.com/hardikkaurani"
+              href="https://x.com/HKaurani_01"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-cream"
               style={{ color: ACCENT }}
             >
-              @hardikkaurani
+              @HKaurani_01
             </a>
           </p>
         </div>

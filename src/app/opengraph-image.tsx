@@ -210,7 +210,7 @@ export default async function Image() {
               color: muted,
             }}
           >
-            by @hardikkaurani
+            by @HKaurani_01
           </div>
         </div>
       </div>

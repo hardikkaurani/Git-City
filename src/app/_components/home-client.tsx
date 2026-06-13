@@ -3750,14 +3750,6 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
             </div>
             <div className="divide-y divide-border/40">
               <Link
-                href={shopHref}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between px-5 py-3.5 active:bg-white/5"
-              >
-                <span className="text-sm text-cream">Shop</span>
-                <span className="text-xs" style={{ color: theme.accent }}>&#8594;</span>
-              </Link>
-              <Link
                 href="/leaderboard"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-between px-5 py-3.5 active:bg-white/5"
@@ -3790,14 +3782,6 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                 className="flex items-center justify-between px-5 py-3.5 active:bg-white/5"
               >
                 <span className="text-sm text-cream">Hire developers</span>
-                <span className="text-xs" style={{ color: theme.accent }}>&#8594;</span>
-              </Link>
-              <Link
-                href="/advertise"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between px-5 py-3.5 active:bg-white/5"
-              >
-                <span className="text-sm text-cream">Place your Ad</span>
                 <span className="text-xs" style={{ color: theme.accent }}>&#8594;</span>
               </Link>
             </div>
@@ -4268,28 +4252,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                 </div>
               )}
 
-              {/* Nav + Auth — desktop only (mobile uses bottom bar) */}
               <div className="hidden sm:flex items-center justify-center gap-2">
-                <Link
-                  href={shopHref}
-                  className="btn-press border-[3px] border-border bg-bg/80 px-4 py-1.5 text-[10px] backdrop-blur-sm transition-colors hover:border-border-light"
-                  style={{ color: theme.accent }}
-                >
-                  Shop
-                </Link>
-                <Link
-                  href="/advertise"
-                  className="btn-press relative border-[3px] px-4 py-1.5 text-[10px] backdrop-blur-sm transition-colors"
-                  style={{ color: theme.accent, borderColor: theme.accent + "60", backgroundColor: theme.accent + "12" }}
-                >
-                  Place your Ad
-                  <span
-                    className="absolute -top-1.5 -right-2 rounded-sm px-1 py-px text-[7px] font-bold leading-none text-bg"
-                    style={{ backgroundColor: theme.accent }}
-                  >
-                    NEW
-                  </span>
-                </Link>
                 <Link
                   href="/leaderboard"
                   className="btn-press border-[3px] border-border bg-bg/80 px-4 py-1.5 text-[10px] backdrop-blur-sm transition-colors hover:border-border-light"
@@ -4376,26 +4339,6 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
       {/* ─── Mobile Bottom Bar (game-style nav) ─── */}
       {!flyMode && !exploreMode && !introMode && !rabbitCinematic && buildings.length > 0 && (
         <nav className="pointer-events-auto fixed inset-x-0 bottom-0 z-35 hidden items-center justify-around border-t-2 border-border bg-bg/95 px-1 py-2 backdrop-blur-md sm:hidden">
-          <Link
-            href={shopHref}
-            className="btn-press border-2 border-border px-3 py-1.5 text-[10px] transition-colors active:bg-white/5"
-            style={{ color: theme.accent }}
-          >
-            Shop
-          </Link>
-          <Link
-            href="/advertise"
-            className="btn-press relative border-2 px-3 py-1.5 text-[10px] transition-colors active:bg-white/5"
-            style={{ color: theme.accent, borderColor: theme.accent + "60", backgroundColor: theme.accent + "12" }}
-          >
-            Ad
-            <span
-              className="absolute -top-1.5 -right-1.5 rounded-sm px-0.5 py-px text-[6px] font-bold leading-none text-bg"
-              style={{ backgroundColor: theme.accent }}
-            >
-              NEW
-            </span>
-          </Link>
           <button
             onClick={() => {
               if (session) {

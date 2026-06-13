@@ -29,7 +29,6 @@
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" />
   <img src="https://img.shields.io/badge/Three.js-3D_Engine-black?logo=threedotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white" />
-  <img src="https://img.shields.io/badge/Stripe-Payments-635BFF?logo=stripe&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white" />
 </p>
 
@@ -152,16 +151,10 @@ graph TB
         ROOM --> TICKER_SVC
         ROOM --> PRESENCE_SVC
     end
-
-    subgraph Payments [Payment Layer]
-        STRIPE[Stripe - USD payments]
-    end
-
     UI -->|SSR and RSC hydration| Vercel
     APIROUTES -->|Auth and DB queries| SupabasePlatform
     APIROUTES -->|Fetch user contribution stats| GH
     WSOCKET -->|Persistent WebSocket| PartyKit
-    APIROUTES -->|Shop purchases| STRIPE
 ```
 
 ---
@@ -362,7 +355,7 @@ flowchart LR
 | Supabase | PostgreSQL database, GitHub OAuth, Row Level Security, storage |
 | PartyKit | Edge-deployed WebSocket rooms for real-time multiplayer |
 | GitHub REST API v3 | Contribution stats, repo data, avatars, pinned repos |
-| Stripe | Payment processing for shop item purchases |
+
 
 ### Infrastructure
 
@@ -539,9 +532,6 @@ GITHUB_TOKEN=ghp_your-github-token
 # Comma-separated GitHub usernames allowed to access /admin/ads
 ADMIN_GITHUB_LOGINS=hardikkaurani
 
-# ── Payments (optional — only needed for shop) ────────────────────────────────
-STRIPE_SECRET_KEY=sk_test_your-stripe-key
-STRIPE_WEBHOOK_SECRET=whsec_your-webhook-secret
 ```
 
 > Configure GitHub OAuth in Supabase under **Authentication > Providers > GitHub**. Add `http://localhost:3001/auth/callback` as a redirect URL for local development and `https://the-git-city.vercel.app/auth/callback` for production.

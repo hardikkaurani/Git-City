@@ -608,12 +608,12 @@ function SlideContact() {
       </p>
       <div className="flex flex-col gap-5">
         <a
-          href="https://x.com/hardikkaurani"
+          href="https://x.com/HKaurani_01"
           target="_blank"
           rel="noopener noreferrer"
           className="border-[3px] border-border bg-bg-raised px-8 py-4 text-base text-cream transition-colors hover:border-border-light sm:text-lg"
         >
-          @hardikkaurani on X
+          @HKaurani_01 on X
         </a>
         <a
           href="mailto:hardikkaurani1@gmail.com"
