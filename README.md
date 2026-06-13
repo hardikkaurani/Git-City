@@ -27,7 +27,10 @@
     <img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" />
   </a>
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-Latest-3178C6?logo=typescript&logoColor=white" />
   <img src="https://img.shields.io/badge/Three.js-3D_Engine-black?logo=threedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/React_Three_Fiber-Latest-61DAFB?logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/GitHub_APIs-Integration-181717?logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white" />
 </p>
