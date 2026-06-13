@@ -3433,7 +3433,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                               </button>
                             </div>
                             <div className="space-y-2.5 text-xs normal-case text-muted">
-                              <p><span className="text-cream">1.</span> Install <a href="https://marketplace.visualstudio.com/items?itemName=git-city.gitcity" target="_blank" rel="noopener noreferrer" className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
+                              <p><span className="text-cream">1.</span> Install <a href="https://marketplace.visualstudio.com/items?itemName=hardikkaurani.gitcity" target="_blank" rel="noopener noreferrer" className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
                               <p><span className="text-cream">2.</span> Cmd+Shift+P &rarr; &ldquo;Pulse: Connect&rdquo;</p>
                               <p><span className="text-cream">3.</span> Paste your key and start coding</p>
                             </div>
@@ -3454,7 +3454,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                             </p>
                             <div className="mb-4 space-y-2.5 text-xs normal-case text-muted">
                               <p><span className="text-cream">1.</span> Generate your key below</p>
-                              <p><span className="text-cream">2.</span> Install <a href="https://marketplace.visualstudio.com/items?itemName=git-city.gitcity" target="_blank" rel="noopener noreferrer" className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
+                              <p><span className="text-cream">2.</span> Install <a href="https://marketplace.visualstudio.com/items?itemName=hardikkaurani.gitcity" target="_blank" rel="noopener noreferrer" className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
                               <p><span className="text-cream">3.</span> Paste key in VS Code, start coding</p>
                             </div>
                             <button
