@@ -1,4 +1,4 @@
-<h1 align="center">Git City </h1>
+<h1 align="center">Git City !</h1>
 
 <p align="center">
   <a href="https://the-git-city-dn5jb2ak5-hardikkaurani1-4236s-projects.vercel.app" target="_blank">
