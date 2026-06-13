@@ -112,9 +112,9 @@ supabase/       # Database migrations
 
 The city is rendered with React Three Fiber. Key files:
 
-- `src/components/CityScene.tsx` - Main 3D scene
-- `src/components/Building.tsx` - Individual building rendering
-- `src/lib/zones.ts` - Item definitions for building customization
+- `src/components/CityScene.tsx` - Main 3D scene.
+- `src/components/Building.tsx` - Individual building rendering.
+- `src/lib/zones.ts` - Item definitions for building customization.
 
 If you're adding a new building effect or item, start with `zones.ts`.
 
