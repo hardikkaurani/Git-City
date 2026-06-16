@@ -22,6 +22,8 @@ export const PROJECT_CONFIG = {
   xHandle: env("NEXT_PUBLIC_X_HANDLE", "@HKaurani_01"),
   emailFrom: env("EMAIL_FROM", env("NEXT_PUBLIC_EMAIL_FROM", "Git City <noreply@example.com>")),
   adminNotificationEmail: env("ADMIN_NOTIFICATION_EMAIL", "hardikkaurani1@gmail.com"),
+  upiId: env("NEXT_PUBLIC_UPI_ID", "hardikkaurani1@okaxis"),
+  upiName: env("NEXT_PUBLIC_UPI_NAME", "Hardik Kaurani"),
 };
 
 export const PROJECT_REPOSITORY = `${PROJECT_CONFIG.repositoryOwner}/${PROJECT_CONFIG.repositoryName}`;

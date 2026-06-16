@@ -7,8 +7,9 @@ import { GitcPayButton } from "@/components/GitcPayButton";
 import { PaymentMethodTabs, type PaymentMethodOption } from "@/components/PaymentMethodTabs";
 import { isGitcEnabled } from "@/lib/gitc";
 import { isBrazilClient } from "@/lib/geo";
+import { PROJECT_CONFIG } from "@/config/project";
 
-type PayMethod = "card" | "pix" | "gitc";
+type PayMethod = "card" | "pix" | "gitc" | "upi";
 
 interface PixelPackage {
   id: string;
@@ -216,8 +217,10 @@ export default function PixelsStoreClient({
   const [successPkg, setSuccessPkg] = useState<string | null>(null);
   const [, setCurrentBalance] = useState(balance);
   const [checkoutPkgId, setCheckoutPkgId] = useState<string | null>(null);
-  const [payMethod, setPayMethod] = useState<PayMethod>("card");
+  const [payMethod, setPayMethod] = useState<PayMethod>("upi");
   const [isBR, setIsBR] = useState(false);
+  const [utrInput, setUtrInput] = useState("");
+  const [upiPendingUtr, setUpiPendingUtr] = useState<string | null>(null);
   const router = useRouter();
 
   /** Refresh the server-rendered balance + re-fetch any in-flight purchase state. */
@@ -228,6 +231,38 @@ export default function PixelsStoreClient({
       .catch(() => {});
     router.refresh();
   }, [router]);
+
+  const closeCheckoutModal = useCallback(() => {
+    setCheckoutPkgId(null);
+    setUtrInput("");
+    setUpiPendingUtr(null);
+    setError(null);
+    refreshBalance();
+  }, [refreshBalance]);
+
+  const handleUpiSubmit = async (pkgId: string) => {
+    if (buying || !isAuthenticated) return;
+    setBuying(pkgId);
+    setError(null);
+    try {
+      const res = await fetch("/api/pixels/checkout/upi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ package_id: pkgId, utr: utrInput }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to submit verification. Try again.");
+        return;
+      }
+      setUpiPendingUtr(utrInput);
+      setUtrInput("");
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setBuying(null);
+    }
+  };
 
   // BR detection: server header (Vercel) → timezone → language fallback.
   useEffect(() => {
@@ -398,8 +433,8 @@ export default function PixelsStoreClient({
               {/* Top row: name + price */}
               <div className="flex items-center justify-between mb-6 mt-1">
                 <p className="text-base text-muted">{pkg.name}</p>
-                <p className="text-base text-cream font-bold">
-                  ${(pkg.price_usd_cents / 100).toFixed(2)}
+                <p className="text-base text-cream font-bold font-mono">
+                  ₹{Math.round((pkg.price_usd_cents / 100) * 85)}
                 </p>
               </div>
 
@@ -449,10 +484,7 @@ export default function PixelsStoreClient({
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
           onClick={(e) => {
             if (e.target === e.currentTarget && !buying) {
-              setCheckoutPkgId(null);
-              // Defensive: if the user closes the modal mid-verification,
-              // refresh in case the backend completed the credit anyway.
-              refreshBalance();
+              closeCheckoutModal();
             }
           }}
         >
@@ -467,8 +499,7 @@ export default function PixelsStoreClient({
               <button
                 onClick={() => {
                   if (buying) return;
-                  setCheckoutPkgId(null);
-                  refreshBalance();
+                  closeCheckoutModal();
                 }}
                 className="text-sm text-muted transition-colors hover:text-cream cursor-pointer"
               >
@@ -477,10 +508,11 @@ export default function PixelsStoreClient({
             </div>
 
             <p className="mt-2 text-[10px] text-dim normal-case">
-              ${(checkoutPkg.price_usd_cents / 100).toFixed(2)}
+              ₹{Math.round((checkoutPkg.price_usd_cents / 100) * 85)} via UPI
               {checkoutPkg.price_brl_cents && (
                 <> · R${(checkoutPkg.price_brl_cents / 100).toFixed(2)} via PIX</>
               )}
+              {` · $${(checkoutPkg.price_usd_cents / 100).toFixed(2)} via Card`}
             </p>
 
             {error && (
@@ -490,8 +522,22 @@ export default function PixelsStoreClient({
             )}
 
             <div className="mt-4">
-              {(() => {
+              {upiPendingUtr ? (
+                <div className="py-4 text-center">
+                  <p className="mb-2 text-sm text-lime font-bold">Verification Submitted!</p>
+                  <p className="text-[11px] text-muted normal-case mb-4">
+                    Transaction UTR {upiPendingUtr} has been submitted. The admin will verify the payment and credit your Pixels soon.
+                  </p>
+                  <button
+                    onClick={closeCheckoutModal}
+                    className="border-2 border-border px-4 py-2 text-xs text-cream hover:border-border-light cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (() => {
                 const methods: PaymentMethodOption<PayMethod>[] = [
+                  { id: "upi", label: "UPI" },
                   { id: "card", label: "Card" },
                   { id: "pix", label: "PIX", visible: isBR && !!checkoutPkg.price_brl_cents },
                   { id: "gitc", label: "GITC", visible: gitcEnabled },
@@ -505,6 +551,80 @@ export default function PixelsStoreClient({
                     selected={safeSelected}
                     onChange={setPayMethod}
                   >
+                    {safeSelected === "upi" && (() => {
+                      const priceInInr = Math.round((checkoutPkg.price_usd_cents / 100) * 85);
+                      const upiId = PROJECT_CONFIG.upiId;
+                      const upiName = PROJECT_CONFIG.upiName;
+                      const upiUri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${priceInInr}&cu=INR&tn=${encodeURIComponent("Git City PX: " + checkoutPkg.name)}`;
+                      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUri)}`;
+
+                      return (
+                        <div className="flex flex-col items-center">
+                          <p className="mb-3 text-[10px] text-muted normal-case text-center">
+                            Scan the QR code with any UPI app (GPay, PhonePe, Paytm, BHIM) to pay ₹{priceInInr}
+                          </p>
+
+                          <div className="mb-4 flex justify-center bg-white p-2 border-2 border-border">
+                            <img
+                              src={qrUrl}
+                              alt="UPI QR Code"
+                              className="h-44 w-44"
+                              style={{ imageRendering: "pixelated" }}
+                            />
+                          </div>
+
+                          <div className="mb-4 w-full">
+                            <p className="mb-1 text-[10px] text-muted">UPI ID:</p>
+                            <div className="flex items-stretch gap-1">
+                              <div className="flex-1 overflow-hidden border-2 border-border bg-bg-card px-2 py-1.5">
+                                <p className="truncate text-[10px] text-cream normal-case font-mono font-bold">
+                                  {upiId}
+                                </p>
+                              </div>
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    await navigator.clipboard.writeText(upiId);
+                                    alert("UPI ID copied!");
+                                  } catch {}
+                                }}
+                                className="shrink-0 border-2 px-3 text-xs transition-colors cursor-pointer border-border text-cream hover:text-lime hover:border-lime"
+                              >
+                                Copy
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="mb-1 w-full border-t border-border/50 pt-3">
+                            <p className="mb-2 text-[10px] text-muted normal-case">
+                              Enter the 12-digit UTR/Ref No. after paying to request credit approval:
+                            </p>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                maxLength={12}
+                                value={utrInput}
+                                onChange={(e) => setUtrInput(e.target.value.replace(/\D/g, ""))}
+                                placeholder="12-digit UTR No."
+                                className="flex-1 border-2 border-border bg-bg-card px-2 py-1.5 text-xs text-cream normal-case font-mono focus:border-lime outline-none"
+                              />
+                              <button
+                                onClick={() => handleUpiSubmit(checkoutPkg.id)}
+                                disabled={utrInput.length !== 12 || !!buying || !isAuthenticated}
+                                className="btn-press px-4 text-xs font-bold text-bg disabled:opacity-40 transition-all cursor-pointer"
+                                style={{
+                                  backgroundColor: "#c8e64a",
+                                  boxShadow: "2px 2px 0 0 #5a7a00",
+                                }}
+                              >
+                                {buying === checkoutPkg.id ? "..." : "Submit"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     {safeSelected === "card" && (
                       <button
                         onClick={() => handleStripeBuy(checkoutPkg.id)}
@@ -566,9 +686,6 @@ export default function PixelsStoreClient({
                           });
                           const data = await res.json().catch(() => ({}));
                           if (res.ok) {
-                            // Close the modal, show banner, and pull the new
-                            // balance from the server so the user sees the
-                            // updated PX immediately — no manual reload.
                             setError(null);
                             setSuccessPkg(checkoutPkg.id);
                             setCheckoutPkgId(null);
@@ -584,6 +701,7 @@ export default function PixelsStoreClient({
             </div>
 
             <p className="mt-3 text-center text-[9px] text-muted normal-case">
+              {payMethod === "upi" && "Manual UPI payment verification."}
               {payMethod === "card" && "One-time payment via Stripe."}
               {payMethod === "pix" && "Brazilian PIX via AbacatePay."}
               {payMethod === "gitc" && "GITC sent on Base."}

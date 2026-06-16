@@ -51,6 +51,16 @@ const SECTIONS: { heading: string; links: AdminLink[] }[] = [
     ],
   },
   {
+    heading: "Economy",
+    links: [
+      {
+        href: "/admin/pixels",
+        title: "Pixel Purchases",
+        description: "Approve pending UPI payments and view ledger",
+      },
+    ],
+  },
+  {
     heading: "Monitoring",
     links: [
       {
