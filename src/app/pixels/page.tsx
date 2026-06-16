@@ -65,6 +65,17 @@ export default async function PixelsPage() {
     .order("price_pixels", { ascending: true })
     .limit(6);
 
+  // Get developer's purchase history
+  let purchases: any[] = [];
+  if (devId) {
+    const { data: userPurchases } = await sb
+      .from("pixel_purchases")
+      .select("*")
+      .eq("developer_id", devId)
+      .order("created_at", { ascending: false });
+    purchases = userPurchases ?? [];
+  }
+
   return (
     <main className="min-h-screen bg-bg font-pixel uppercase text-warm">
       <div className="mx-auto max-w-3xl px-4 py-8 sm:py-12">
@@ -104,6 +115,7 @@ export default async function PixelsPage() {
           isAuthenticated={!!devId}
           githubLogin={githubLogin}
           serverCountry={country}
+          purchases={purchases}
         />
 
         {/* What you can buy */}

@@ -35,6 +35,7 @@ interface Props {
   isAuthenticated: boolean;
   githubLogin: string;
   serverCountry?: string | null;
+  purchases?: any[];
 }
 
 const BADGES: Record<string, { label: string; color: string }> = {
@@ -210,6 +211,7 @@ export default function PixelsStoreClient({
   isAuthenticated,
   githubLogin,
   serverCountry,
+  purchases = [],
 }: Props) {
   const [buying, setBuying] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -221,7 +223,88 @@ export default function PixelsStoreClient({
   const [isBR, setIsBR] = useState(false);
   const [utrInput, setUtrInput] = useState("");
   const [upiPendingUtr, setUpiPendingUtr] = useState<string | null>(null);
+  const [activeReceipt, setActiveReceipt] = useState<any | null>(null);
   const router = useRouter();
+
+  const handlePrintReceipt = (receipt: any) => {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Receipt - Git City</title>
+          <style>
+            body {
+              font-family: monospace;
+              padding: 40px;
+              color: #000;
+              background: #fff;
+            }
+            .receipt-box {
+              max-width: 400px;
+              margin: 0 auto;
+              border: 2px dashed #000;
+              padding: 20px;
+            }
+            .title {
+              text-align: center;
+              font-size: 18px;
+              font-weight: bold;
+              margin-bottom: 20px;
+            }
+            .row {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 10px;
+              font-size: 14px;
+            }
+            .divider {
+              border-bottom: 2px dashed #000;
+              margin: 15px 0;
+            }
+            .stamp {
+              text-align: center;
+              border: 3px double red;
+              color: red;
+              font-size: 20px;
+              font-weight: bold;
+              padding: 5px;
+              margin: 20px auto 0;
+              width: 100px;
+              transform: rotate(-5deg);
+            }
+          </style>
+        </head>
+        <body>
+          <div class="receipt-box">
+            <div class="title">GIT CITY ECONOMY</div>
+            <div class="title">OFFICIAL RECEIPT</div>
+            <div class="divider"></div>
+            <div class="row"><span>ORDER ID:</span><span>${receipt.id}</span></div>
+            <div class="row"><span>DATE:</span><span>${new Date(receipt.created_at).toLocaleString()}</span></div>
+            <div class="row"><span>DEVELOPER:</span><span>@${githubLogin}</span></div>
+            <div class="divider"></div>
+            <div class="row"><span>ITEM:</span><span>${receipt.package_id.toUpperCase()} PACK</span></div>
+            <div class="row"><span>METHOD:</span><span>${receipt.provider.toUpperCase()}</span></div>
+            <div class="row"><span>REF ID/UTR:</span><span>${receipt.provider_tx_id || 'N/A'}</span></div>
+            <div class="divider"></div>
+            <div class="row" style="font-size: 16px; font-weight: bold;">
+              <span>TOTAL PAID:</span>
+              <span>${receipt.currency === 'inr' ? '₹' + (receipt.amount_cents / 100) : '$' + (receipt.amount_cents / 100)}</span>
+            </div>
+            <div class="stamp">PAID</div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              window.close();
+            }
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
 
   /** Refresh the server-rendered balance + re-fetch any in-flight purchase state. */
   const refreshBalance = useCallback(() => {
@@ -706,6 +789,158 @@ export default function PixelsStoreClient({
               {payMethod === "pix" && "Brazilian PIX via AbacatePay."}
               {payMethod === "gitc" && "GITC sent on Base."}
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Purchase History Section */}
+      {purchases && purchases.length > 0 && (
+        <div className="mt-12 border-[3px] border-border bg-bg-raised p-6">
+          <h2 className="text-xl text-cream mb-4 text-center">
+            Your Purchase History
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-border text-[10px] tracking-wider text-dim uppercase">
+                  <th className="pb-2">Date</th>
+                  <th className="pb-2">Package</th>
+                  <th className="pb-2">Amount</th>
+                  <th className="pb-2">Provider</th>
+                  <th className="pb-2">Status</th>
+                  <th className="pb-2 text-right">Receipt</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/40 text-xs">
+                {purchases.map((p) => (
+                  <tr key={p.id} className="hover:bg-bg/40">
+                    <td className="py-2.5 text-dim">
+                      {new Date(p.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="py-2.5 text-cream capitalize">
+                      {p.package_id} Pack
+                    </td>
+                    <td className="py-2.5 text-cream font-mono">
+                      {p.currency === "inr" ? `₹${p.amount_cents / 100}` : `$${(p.amount_cents / 100).toFixed(2)}`}
+                    </td>
+                    <td className="py-2.5 text-dim uppercase">{p.provider}</td>
+                    <td className="py-2.5">
+                      {p.status === "completed" && (
+                        <span className="text-lime font-bold">COMPLETED</span>
+                      )}
+                      {p.status === "pending" && (
+                        <span className="text-yellow-500 animate-pulse">PENDING</span>
+                      )}
+                      {p.status === "expired" && (
+                        <span className="text-red-500">REJECTED</span>
+                      )}
+                      {p.status !== "completed" && p.status !== "pending" && p.status !== "expired" && (
+                        <span className="text-dim uppercase">{p.status}</span>
+                      )}
+                    </td>
+                    <td className="py-2.5 text-right">
+                      {p.status === "completed" ? (
+                        <button
+                          onClick={() => setActiveReceipt(p)}
+                          className="cursor-pointer border border-lime px-2.5 py-1 text-[10px] text-lime hover:bg-lime/10"
+                        >
+                          VIEW BILL
+                        </button>
+                      ) : (
+                        <span className="text-[10px] text-dim">-</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Receipt Modal */}
+      {activeReceipt && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
+          onClick={() => setActiveReceipt(null)}
+        >
+          <div
+            className="w-full max-w-sm border-[3px] border-border bg-bg p-6 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setActiveReceipt(null)}
+              className="absolute top-4 right-4 text-sm text-muted hover:text-cream cursor-pointer"
+            >
+              &times;
+            </button>
+
+            <h3 className="text-base text-cream sm:text-lg text-center mb-6">
+              Official Bill Receipt
+            </h3>
+
+            <div className="border-2 border-dashed border-border bg-bg-card p-4 font-mono text-xs normal-case select-all">
+              <div className="text-center font-bold text-cream mb-4">
+                GIT CITY OFFICIAL RECEIPT
+              </div>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Order ID:</span>
+                <span className="text-cream truncate max-w-[180px]">{activeReceipt.id}</span>
+              </div>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Date:</span>
+                <span className="text-cream">{new Date(activeReceipt.created_at).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Developer:</span>
+                <span className="text-cream">@{githubLogin}</span>
+              </div>
+              <hr className="border-dashed border-border/60 my-3" />
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Item:</span>
+                <span className="text-cream capitalize">{activeReceipt.package_id} Pack</span>
+              </div>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Payment:</span>
+                <span className="text-cream uppercase">{activeReceipt.provider}</span>
+              </div>
+              <div className="flex justify-between mb-1.5">
+                <span className="text-muted">Ref/UTR:</span>
+                <span className="text-cream">{activeReceipt.provider_tx_id || "N/A"}</span>
+              </div>
+              <hr className="border-dashed border-border/60 my-3" />
+              <div className="flex justify-between text-sm font-bold">
+                <span className="text-muted">Total Paid:</span>
+                <span className="text-lime font-mono">
+                  {activeReceipt.currency === "inr" ? `₹${activeReceipt.amount_cents / 100}` : `$${(activeReceipt.amount_cents / 100).toFixed(2)}`}
+                </span>
+              </div>
+              
+              <div className="mt-6 flex justify-center">
+                <span className="border-4 border-double border-lime/80 bg-lime/10 px-4 py-1 text-base text-lime font-bold uppercase tracking-wider rotate-[-5deg]">
+                  PAID
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-5 flex gap-2">
+              <button
+                onClick={() => setActiveReceipt(null)}
+                className="flex-1 border-2 border-border py-2 text-xs text-muted hover:border-border-light cursor-pointer"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => handlePrintReceipt(activeReceipt)}
+                className="flex-1 btn-press py-2 text-xs text-bg font-bold cursor-pointer"
+                style={{
+                  backgroundColor: "#c8e64a",
+                  boxShadow: "2px 2px 0 0 #5a7a00",
+                }}
+              >
+                Print Receipt
+              </button>
+            </div>
           </div>
         </div>
       )}
