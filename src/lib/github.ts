@@ -552,9 +552,6 @@ export function generateCityLayout(devs: DeveloperRecord[]): {
         d = Math.max(d, 16);
       } else {
         evolutionName = "Small House";
-        height = Math.min(height, 25);
-        w = Math.min(w, 12);
-        d = Math.min(d, 12);
       }
 
       const floorH = 6;
