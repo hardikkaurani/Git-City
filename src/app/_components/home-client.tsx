@@ -4615,6 +4615,14 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                     )}
                   </div>
                   <p className="truncate text-[10px] text-muted">@{selectedBuilding.login}</p>
+                  <p className="text-[8px] font-bold tracking-wider mt-0.5" style={{ color: theme.accent }}>
+                    {selectedBuilding.evolution_name ?? (selectedBuilding.xp_level >= 100 ? "Founder Citadel" :
+                     selectedBuilding.xp_level >= 50 ? "Tech Campus" :
+                     selectedBuilding.xp_level >= 25 ? "Skyscraper" :
+                     selectedBuilding.xp_level >= 10 ? "Tower" :
+                     selectedBuilding.xp_level >= 5 ? "Office" :
+                     "Small House")}
+                  </p>
                   {selectedBuilding.active_raid_tag && (
                     <p className="text-[8px] text-red-400">
                       Attacked by @{selectedBuilding.active_raid_tag.attacker_login}

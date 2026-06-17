@@ -95,6 +95,7 @@ export interface CityBuilding {
   rabbit_completed: boolean;
   xp_total: number;
   xp_level: number;
+  evolution_name?: string;
   district?: string;
   district_chosen?: boolean;
   position: [number, number, number];
@@ -333,33 +334,45 @@ function precomputeComposites(
 // ─── District Layout ────────────────────────────────────────
 
 export const DISTRICT_NAMES: Record<string, string> = {
-  downtown: 'Downtown',
-  frontend: 'Frontend', backend: 'Backend', fullstack: 'Full Stack',
-  mobile: 'Mobile', data_ai: 'Data & AI', devops: 'DevOps & Cloud',
-  security: 'Security', gamedev: 'GameDev', vibe_coder: 'Vibe Coder',
-  creator: 'Creator',
+  downtown: 'Downtown Elite',
+  frontend: 'React District',
+  backend: 'Python District',
+  fullstack: 'JavaScript District',
+  mobile: 'React District',
+  data_ai: 'AI District',
+  devops: 'Open Source District',
+  security: 'Open Source District',
+  gamedev: 'Open Source District',
+  vibe_coder: 'Vibe Coder',
+  creator: 'Open Source District',
 };
 
 export const DISTRICT_COLORS: Record<string, string> = {
   downtown: '#fbbf24',
-  frontend: '#3b82f6', backend: '#ef4444', fullstack: '#a855f7',
-  mobile: '#22c55e', data_ai: '#06b6d4', devops: '#f97316',
-  security: '#dc2626', gamedev: '#ec4899', vibe_coder: '#8b5cf6',
-  creator: '#eab308',
+  frontend: '#61dafb', // React cyan
+  backend: '#306998', // Python blue
+  fullstack: '#f7df1e', // JavaScript yellow
+  mobile: '#61dafb',
+  data_ai: '#00e5ff', // AI cyan
+  devops: '#a855f7', // Open Source purple
+  security: '#a855f7',
+  gamedev: '#a855f7',
+  vibe_coder: '#ff007f',
+  creator: '#a855f7',
 };
 
 export const DISTRICT_DESCRIPTIONS: Record<string, string> = {
   downtown: 'The elite core. Top 50 devs by global rank.',
-  frontend: 'Pixels, components, and beautiful interfaces.',
-  backend: 'APIs, systems, and server-side logic.',
-  fullstack: 'Jack of all trades. Ship everything.',
-  mobile: 'Native apps for iOS and Android.',
-  data_ai: 'Data science, ML, and AI.',
-  devops: 'Infrastructure, CI/CD, and cloud.',
-  security: 'Hacking, defense, and cryptography.',
-  gamedev: 'Game engines, physics, and fun.',
-  vibe_coder: 'Aesthetic code. Vibes over velocity.',
-  creator: 'Open-source tools and content.',
+  frontend: 'Components, state, and gorgeous UI layers.',
+  backend: 'APIs, data processing, and scripting.',
+  fullstack: 'High velocity developers shaping the web with JS.',
+  mobile: 'Native apps and mobile experiences.',
+  data_ai: 'Deep learning models and intelligent data agents.',
+  devops: 'Open source projects, frameworks, and tools.',
+  security: 'Security, hacking, and encryption.',
+  gamedev: 'Games, animations, and interactive experiences.',
+  vibe_coder: 'Vibes and aesthetic designs.',
+  creator: 'Open source frameworks and community libraries.',
 };
 
 const LANGUAGE_TO_DISTRICT: Record<string, string> = {
@@ -509,6 +522,41 @@ export function generateCityLayout(devs: DeveloperRecord[]): {
         litPercentage = 0.2 + composite * 0.7;
       }
 
+      // Feature 2: Building Evolution System
+      const level = (dev as any).xp_level ?? 1;
+      let evolutionName = "Small House";
+      if (level >= 100) {
+        evolutionName = "Founder Citadel";
+        height = Math.max(height, 280);
+        w = Math.max(w, 32);
+        d = Math.max(d, 32);
+      } else if (level >= 50) {
+        evolutionName = "Tech Campus";
+        height = Math.max(height, 200);
+        w = Math.max(w, 28);
+        d = Math.max(d, 28);
+      } else if (level >= 25) {
+        evolutionName = "Skyscraper";
+        height = Math.max(height, 140);
+        w = Math.max(w, 24);
+        d = Math.max(d, 24);
+      } else if (level >= 10) {
+        evolutionName = "Tower";
+        height = Math.max(height, 90);
+        w = Math.max(w, 20);
+        d = Math.max(d, 20);
+      } else if (level >= 5) {
+        evolutionName = "Office";
+        height = Math.max(height, 50);
+        w = Math.max(w, 16);
+        d = Math.max(d, 16);
+      } else {
+        evolutionName = "Small House";
+        height = Math.min(height, 25);
+        w = Math.min(w, 12);
+        d = Math.min(d, 12);
+      }
+
       const floorH = 6;
       const floors = Math.max(3, Math.floor(height / floorH));
       const windowsPerFloor = Math.max(3, Math.floor(w / 5));
@@ -544,7 +592,8 @@ export function generateCityLayout(devs: DeveloperRecord[]): {
         active_drop: null,
         rabbit_completed: (dev as unknown as Record<string, unknown>).rabbit_completed as boolean ?? false,
         xp_total: (dev as unknown as Record<string, unknown>).xp_total as number ?? 0,
-        xp_level: (dev as unknown as Record<string, unknown>).xp_level as number ?? 1,
+        xp_level: dev.xp_level ?? 1,
+        evolution_name: evolutionName,
         district: did,
         district_chosen: (dev as unknown as Record<string, unknown>).district_chosen as boolean ?? false,
         position: [posX, 0, posZ],
