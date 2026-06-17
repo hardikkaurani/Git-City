@@ -101,9 +101,8 @@ const fragmentShader = /* glsl */ `
       wallColor = mix(wallColor, blendedTint, isFacePixel);
     }
 
-    // Emissive glow for lit windows, scaled by city energy
-    // Both ambient and emissive dim when city sleeps, except for live buildings
-    float effectiveEnergy = mix(uCityEnergy, 1.0, clamp(vLive, 0.0, 1.0));
+    // Emissive glow for lit windows (sleep removed)
+    float effectiveEnergy = 1.0;
     float ambientBase = 0.08 + 0.22 * effectiveEnergy;
     vec3 emissive = wallColor * 1.8 * effectiveEnergy;
     vec3 wallFinal = wallColor * ambientBase + emissive;

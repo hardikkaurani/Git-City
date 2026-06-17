@@ -2273,7 +2273,7 @@ interface Props {
 function CityExposure({ cityEnergy }: { cityEnergy: number }) {
   const gl = useThree((s) => s.gl);
   const targetRef = useRef(1.3);
-  targetRef.current = 0.4 + 0.9 * Math.min(1, cityEnergy); // 0.4 at sleep, 1.3 at full
+  targetRef.current = 1.3; // Constant bright city exposure (sleep removed)
 
   useFrame(() => {
     const current = gl.toneMappingExposure;

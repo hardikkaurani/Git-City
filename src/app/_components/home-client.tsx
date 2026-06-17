@@ -3314,9 +3314,9 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           </div>
           {/* Coding now — desktop dropdown */}
           {(() => {
-            const energyLabel = codingCount === 0 ? "City sleeping" : codingCount <= 2 ? "City waking up" : codingCount <= 9 ? "City alive" : "City buzzing";
-            const energyDotColor = codingCount === 0 ? "bg-muted/50" : codingCount <= 2 ? "bg-[#fbbf24]" : "bg-[#4ade80]";
-            const energyDotAnim = codingCount === 0 ? "" : "live-dot";
+            const energyLabel = codingCount === 0 ? "City active" : codingCount <= 2 ? "City waking up" : codingCount <= 9 ? "City alive" : "City buzzing";
+            const energyDotColor = "bg-[#4ade80]";
+            const energyDotAnim = "live-dot";
             return (
               <div className="relative hidden sm:block">
                 <button
@@ -3330,7 +3330,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                       <span className="text-muted">coding</span>
                     </>
                   ) : (
-                    <span className="text-muted">{energyLabel}</span>
+                    <span className="text-muted">City active</span>
                   )}
                 </button>
                 {codingPanelOpen && (() => {
