@@ -71,7 +71,9 @@ export async function POST(request: Request) {
       p_idempotency_key: `upi:${purchase.id}`,
     });
 
-    if (rpcError || (rpcData && rpcData.error)) {
+    const isDuplicate = rpcData && rpcData.error === "duplicate_transaction";
+
+    if (rpcError || (rpcData && rpcData.error && !isDuplicate)) {
       console.error("RPC credit_pixels error:", rpcError || rpcData?.error);
       return NextResponse.json({ error: rpcError?.message || rpcData?.error || "Failed to credit pixels" }, { status: 500 });
     }
