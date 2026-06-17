@@ -606,7 +606,27 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
   const [codingPanelOpen, setCodingPanelOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [codingInfoOpen, setCodingInfoOpen] = useState(false);
+
   const [session, setSession] = useState<Session | null>(null);
+
+  // Quests mini state
+  const [miniQuests, setMiniQuests] = useState<any[]>([]);
+  const [miniCratesCount, setMiniCratesCount] = useState(0);
+  const [miniBalance, setMiniBalance] = useState(0);
+  const [miniStreak, setMiniStreak] = useState<any>(null);
+
+  useEffect(() => {
+    if (!session || !codingPanelOpen) return;
+    fetch("/api/quests")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.quests) setMiniQuests(data.quests);
+        if (data.crates) setMiniCratesCount(data.crates.length);
+        if (data.balance !== undefined) setMiniBalance(data.balance);
+        if (data.streak) setMiniStreak(data.streak);
+      })
+      .catch(() => {});
+  }, [session, codingPanelOpen]);
   const [claiming, setClaiming] = useState(false);
   const [purchasedItem, setPurchasedItem] = useState<string | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<CityBuilding | null>(null);
@@ -3405,95 +3425,57 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
                         </Link>
                       </div>
 
-                      {/* CTA: Go Live flow */}
-                      <div className="border-t border-border">
-                        {!session ? (
-                          <div className="px-5 py-5 text-center">
-                            <p className="mb-3 text-xs normal-case text-muted">
-                              Keep your city alive while you code
-                            </p>
+                      {/* CTA: Daily Quests and customization */}
+                      <div className="border-t border-border bg-bg-card/40 p-5">
+                        <p className="text-[10px] font-bold text-cream mb-1 flex justify-between">
+                          <span>DAILY QUESTS & SHOP</span>
+                          {session && <span style={{ color: "#c8e64a" }}>{miniBalance} PX</span>}
+                        </p>
+                        <p className="text-[8.5px] text-muted normal-case mb-3">
+                          Complete challenges daily to earn Pixels, unlock streak multipliers, and buy customizations.
+                        </p>
+                        
+                        {session ? (
+                          <div className="space-y-3">
+                            <div className="border border-border/60 bg-bg p-2 text-[9px] font-mono text-muted space-y-1">
+                              <div className="flex justify-between">
+                                <span>QUESTS DONE:</span>
+                                <span className="text-cream">
+                                  {miniQuests.filter(q => q.completed).length} / {miniQuests.length || 4}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>LOGIN STREAK:</span>
+                                <span className="text-orange-400">
+                                  {miniStreak?.current_streak || 0} DAYS {miniStreak?.claimed_today ? "🔥" : "⏳"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>OWNED CRATES:</span>
+                                <span className="text-yellow-400">
+                                  {miniCratesCount}
+                                </span>
+                              </div>
+                            </div>
+                            
                             <Link
-                              href="/auth"
+                              href="/quests"
                               onClick={() => setCodingPanelOpen(false)}
-                              className="btn-press inline-block w-full py-2.5 text-center text-xs text-bg"
-                              style={{ backgroundColor: "#4ade80", boxShadow: "2px 2px 0 0 #16a34a" }}
+                              className="btn-press block w-full py-2 text-center text-[9px] font-bold text-bg transition-all"
+                              style={{ backgroundColor: "#c8e64a", boxShadow: "2px 2px 0 0 #5a7a00" }}
                             >
-                              Sign in with GitHub
+                              OPEN QUESTS & SHOP
                             </Link>
                           </div>
-                        ) : liveByLogin.has(authLogin) ? (
-                          <div className="px-5 py-3.5 text-center text-xs normal-case text-[#4ade80]">
-                            Your building is powering the city
-                          </div>
-                        ) : vsCodeKey ? (
-                          <div className="px-5 py-5">
-                            <p className="mb-3 text-sm font-bold text-cream">Your API Key</p>
-                            <div className="mb-3 flex items-center gap-2">
-                              <code className="flex-1 truncate bg-white/5 px-3 py-2 text-[11px] normal-case text-cream">
-                                {vsCodeKey}
-                              </code>
-                              <button
-                                onClick={() => {
-                                  navigator.clipboard.writeText(vsCodeKey);
-                                  setVsCodeKeyCopied(true);
-                                  setTimeout(() => setVsCodeKeyCopied(false), 2000);
-                                }}
-                                className="btn-press shrink-0 border border-border px-3 py-2 text-[11px] text-cream transition-colors hover:border-border-light"
-                              >
-                                {vsCodeKeyCopied ? "Copied!" : "Copy"}
-                              </button>
-                            </div>
-                            <div className="space-y-2.5 text-xs normal-case text-muted">
-                              <p><span className="text-cream">1.</span> Install <a href="/gitcity-0.3.0.vsix" download className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
-                              <p><span className="text-cream">2.</span> Cmd+Shift+P &rarr; &ldquo;Pulse: Connect&rdquo;</p>
-                              <p><span className="text-cream">3.</span> Paste your key and start coding</p>
-                            </div>
-                            <p className="mt-3 text-[10px] normal-case text-muted/50">
-                              Your building lights up in ~30s
-                            </p>
-                            <p className="mt-1.5 text-[10px] normal-case text-muted/50">
-                              Only your username and language are shared publicly. Control what&apos;s sent in VS Code Settings &gt; Git City &gt; Privacy.
-                            </p>
-                          </div>
                         ) : (
-                          <div className="px-5 py-5">
-                            <p className="mb-3 text-sm normal-case text-cream font-bold">
-                              Keep your city alive
-                            </p>
-                            <p className="mb-3 text-[11px] normal-case text-muted">
-                              When you code, your building glows and the city stays lit. Every active dev powers the signal.
-                            </p>
-                            <div className="mb-4 space-y-2.5 text-xs normal-case text-muted">
-                              <p><span className="text-cream">1.</span> Generate your key below</p>
-                              <p><span className="text-cream">2.</span> Install <a href="/gitcity-0.3.0.vsix" download className="text-[#4ade80] hover:underline">Git City: Pulse</a> in VS Code</p>
-                              <p><span className="text-cream">3.</span> Paste key in VS Code, start coding</p>
-                            </div>
-                            <button
-                              onClick={async () => {
-                                setVsCodeKeyLoading(true);
-                                try {
-                                  const res = await fetch("/api/vscode-key", { method: "POST" });
-                                  const data = await res.json();
-                                  if (data.key) {
-                                    setVsCodeKey(data.key);
-                                    navigator.clipboard.writeText(data.key);
-                                    setVsCodeKeyCopied(true);
-                                    setTimeout(() => setVsCodeKeyCopied(false), 2000);
-                                  }
-                                } finally {
-                                  setVsCodeKeyLoading(false);
-                                }
-                              }}
-                              disabled={vsCodeKeyLoading}
-                              className="btn-press w-full py-2.5 text-center text-xs text-bg"
-                              style={{ backgroundColor: "#4ade80", boxShadow: "2px 2px 0 0 #16a34a" }}
-                            >
-                              {vsCodeKeyLoading ? "Generating..." : vsCodeKeyCopied ? "Key copied to clipboard!" : "Generate API Key"}
-                            </button>
-                            <p className="mt-3 text-[10px] normal-case text-muted/50">
-                              Only your username and language are shared publicly. You can control this in VS Code Settings &gt; Git City &gt; Privacy.
-                            </p>
-                          </div>
+                          <Link
+                            href="/auth?redirect=/quests"
+                            onClick={() => setCodingPanelOpen(false)}
+                            className="btn-press block w-full py-2.5 text-center text-[9px] font-bold text-bg transition-all"
+                            style={{ backgroundColor: "#c8e64a", boxShadow: "2px 2px 0 0 #5a7a00" }}
+                          >
+                            SIGN IN WITH GITHUB
+                          </Link>
                         )}
                       </div>
                     </div>
