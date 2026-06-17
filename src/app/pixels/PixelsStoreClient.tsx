@@ -223,6 +223,8 @@ export default function PixelsStoreClient({
   const [isBR, setIsBR] = useState(false);
   const [utrInput, setUtrInput] = useState("");
   const [upiPendingUtr, setUpiPendingUtr] = useState<string | null>(null);
+  const [activePurchaseId, setActivePurchaseId] = useState<string | null>(null);
+  const [upiTimeLeft, setUpiTimeLeft] = useState<number>(300);
   const [activeReceipt, setActiveReceipt] = useState<any | null>(null);
   const router = useRouter();
 
@@ -319,6 +321,8 @@ export default function PixelsStoreClient({
     setCheckoutPkgId(null);
     setUtrInput("");
     setUpiPendingUtr(null);
+    setActivePurchaseId(null);
+    setUpiTimeLeft(300);
     setError(null);
     refreshBalance();
   }, [refreshBalance]);
@@ -339,6 +343,7 @@ export default function PixelsStoreClient({
         return;
       }
       setUpiPendingUtr(utrInput);
+      setActivePurchaseId(data.purchaseId);
       setUtrInput("");
     } catch {
       setError("Network error. Please try again.");
@@ -368,6 +373,66 @@ export default function PixelsStoreClient({
         .catch(() => {});
     }
   }, []);
+
+  // UPI Countdown timer
+  useEffect(() => {
+    if (!checkoutPkgId || payMethod !== "upi" || upiPendingUtr) {
+      setUpiTimeLeft(300);
+      return;
+    }
+
+    setUpiTimeLeft(300);
+    const interval = setInterval(() => {
+      setUpiTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [checkoutPkgId, payMethod, upiPendingUtr]);
+
+  // UPI realtime payment polling
+  useEffect(() => {
+    if (!activePurchaseId || !upiPendingUtr) return;
+
+    let isSubscribed = true;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/pixels/checkout/upi?purchaseId=${activePurchaseId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data.status === "completed") {
+          clearInterval(interval);
+          if (isSubscribed) {
+            setSuccessPkg(checkoutPkgId);
+            setCheckoutPkgId(null);
+            setUpiPendingUtr(null);
+            setActivePurchaseId(null);
+            refreshBalance();
+          }
+        } else if (data.status === "expired" || data.status === "rejected") {
+          clearInterval(interval);
+          if (isSubscribed) {
+            setError("Payment verification was rejected or expired.");
+            setUpiPendingUtr(null);
+            setActivePurchaseId(null);
+          }
+        }
+      } catch (e) {
+        console.error("Error checking UPI payment status:", e);
+      }
+    }, 3000);
+
+    return () => {
+      isSubscribed = false;
+      clearInterval(interval);
+    };
+  }, [activePurchaseId, upiPendingUtr, checkoutPkgId, refreshBalance]);
 
   const handleStripeBuy = async (pkgId: string) => {
     if (buying || !isAuthenticated) return;
@@ -641,6 +706,26 @@ export default function PixelsStoreClient({
                       const upiUri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${priceInInr}&cu=INR&tn=${encodeURIComponent("Git City PX: " + checkoutPkg.name)}`;
                       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUri)}`;
 
+                      if (upiTimeLeft === 0) {
+                        return (
+                          <div className="py-6 text-center">
+                            <p className="mb-2 text-sm text-red-500 font-bold">QR Code Session Expired</p>
+                            <p className="text-[10px] text-muted normal-case mb-4">
+                              The 5-minute payment session has timed out. Please restart the session to generate a fresh QR code.
+                            </p>
+                            <button
+                              onClick={() => {
+                                setUpiTimeLeft(300);
+                                closeCheckoutModal();
+                              }}
+                              className="border-2 border-border px-4 py-2 text-xs text-cream hover:border-border-light cursor-pointer font-bold"
+                            >
+                              Restart Session
+                            </button>
+                          </div>
+                        );
+                      }
+
                       return (
                         <div className="flex flex-col items-center">
                           <p className="mb-3 text-[10px] text-muted normal-case text-center">
@@ -703,6 +788,13 @@ export default function PixelsStoreClient({
                                 {buying === checkoutPkg.id ? "..." : "Submit"}
                               </button>
                             </div>
+                          </div>
+
+                          <div className="mt-4 flex justify-between items-center text-[10px] text-muted normal-case w-full border-t border-border/30 pt-3">
+                            <span>SESSION EXPIRES IN:</span>
+                            <span className={`font-mono font-bold ${upiTimeLeft < 60 ? "text-red-500 animate-pulse" : "text-lime"}`}>
+                              {Math.floor(upiTimeLeft / 60)}:{(upiTimeLeft % 60).toString().padStart(2, "0")}
+                            </span>
                           </div>
                         </div>
                       );

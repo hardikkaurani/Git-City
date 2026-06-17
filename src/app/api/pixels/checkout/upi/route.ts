@@ -114,3 +114,36 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to submit UPI verification" }, { status: 500 });
   }
 }
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const purchaseId = searchParams.get("purchaseId");
+  if (!purchaseId) {
+    return NextResponse.json({ error: "Missing purchaseId" }, { status: 400 });
+  }
+
+  const supabase = await createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+  const sb = getSupabaseAdmin();
+  const { data: purchase, error } = await sb
+    .from("pixel_purchases")
+    .select("status, pixels_credited")
+    .eq("id", purchaseId)
+    .single();
+
+  if (error || !purchase) {
+    return NextResponse.json({ error: "Purchase not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({
+    status: purchase.status,
+    pixels_credited: purchase.pixels_credited,
+  });
+}
