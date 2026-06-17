@@ -180,7 +180,7 @@ export default function CityScene({
       />
 
       {/* Live presence dots above active buildings */}
-      {liveByLogin && liveByLogin.size > 0 && (
+      {liveByLogin && (
         <LiveDots buildings={buildings} liveByLogin={liveByLogin} />
       )}
 

@@ -2275,6 +2275,18 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
   const { count: liveUsers } = useLiveUsers();
   const { liveCount: codingCount, liveByLogin } = useCodingPresence();
 
+  const liveByLoginWithSelf = useMemo(() => {
+    const map = new Map(liveByLogin);
+    if (authLogin && !map.has(authLogin)) {
+      map.set(authLogin, {
+        githubLogin: authLogin,
+        avatarUrl: authAvatar || "",
+        status: "active",
+      });
+    }
+    return map;
+  }, [liveByLogin, authLogin, authAvatar]);
+
   // City energy: devs coding -> city lights up. 0 devs = nearly dark, 5+ = full brightness
   const cityEnergy = useMemo(() => {
     // Local dev has no live VSCode coding presence, so codingCount is always 0
@@ -2579,7 +2591,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
         onIntroEnd={endIntro}
         onFocusInfo={() => { }}
         ghostPreviewLogin={ghostPreviewLogin}
-        liveByLogin={liveByLogin}
+        liveByLogin={liveByLoginWithSelf}
         cityEnergy={cityEnergy}
         raidPhase={raidState.phase}
         raidData={raidState.raidData}

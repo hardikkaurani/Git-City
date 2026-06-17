@@ -102,9 +102,10 @@ const fragmentShader = /* glsl */ `
     }
 
     // Emissive glow for lit windows, scaled by city energy
-    // Both ambient and emissive dim when city sleeps
-    float ambientBase = 0.08 + 0.22 * uCityEnergy;
-    vec3 emissive = wallColor * 1.8 * uCityEnergy;
+    // Both ambient and emissive dim when city sleeps, except for live buildings
+    float effectiveEnergy = mix(uCityEnergy, 1.0, clamp(vLive, 0.0, 1.0));
+    float ambientBase = 0.08 + 0.22 * effectiveEnergy;
+    vec3 emissive = wallColor * 1.8 * effectiveEnergy;
     vec3 wallFinal = wallColor * ambientBase + emissive;
 
     // Live building boost: pushes windows past bloom threshold
@@ -112,7 +113,7 @@ const fragmentShader = /* glsl */ `
     wallFinal = mix(wallFinal, wallFinal * liveBoost, vLive);
 
     // Roof: solid color with emissive, also scaled by city energy
-    vec3 roofFinal = uRoofColor * (0.4 + 1.4 * uCityEnergy);
+    vec3 roofFinal = uRoofColor * (0.4 + 1.4 * effectiveEnergy);
 
     vec3 color = mix(wallFinal, roofFinal, isRoof);
 
@@ -451,6 +452,14 @@ export default memo(function InstancedBuildings({
         arr[idx] = key === PROJECT_CONFIG.ownerGithubLogin ? 1.5 : 1.0;
         lit.push(idx);
       }
+    }
+
+    // Always ensure creator's building is lit
+    const creatorKey = PROJECT_CONFIG.ownerGithubLogin.toLowerCase();
+    const creatorIdx = loginToIdx.get(creatorKey);
+    if (creatorIdx !== undefined && !lit.includes(creatorIdx)) {
+      arr[creatorIdx] = 1.5;
+      lit.push(creatorIdx);
     }
 
     liveAttr.needsUpdate = true;

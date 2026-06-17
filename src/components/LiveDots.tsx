@@ -37,13 +37,16 @@ export default function LiveDots({ buildings, liveByLogin }: LiveDotsProps) {
 
   const { regularIndices, creatorIndex } = useMemo(() => {
     const regular: number[] = [];
-    let creator: number | null = null;
+    const creatorKey = PROJECT_CONFIG.ownerGithubLogin.toLowerCase();
+    const creatorIdx = loginToIdx.get(creatorKey);
+    let creator: number | null = creatorIdx !== undefined ? creatorIdx : null;
+
     for (const login of liveByLogin.keys()) {
       const key = login.toLowerCase();
       const idx = loginToIdx.get(key);
       if (idx === undefined) continue;
-      if (key === PROJECT_CONFIG.ownerGithubLogin) {
-        creator = idx;
+      if (key === creatorKey) {
+        // Creator is already set or overridden
       } else {
         regular.push(idx);
       }
