@@ -618,7 +618,7 @@ npm run lint
 ---
 
 <p align="center">
-  Built by <a href="https://x.com/HKaurani_01">@hardikkaurani</a>
+  Built by <a href="https://x.com/HKaurani_01">@hardikkaurani</a> & <a href="https://github.com/apps/dependabot">Dependabot</a>
   &nbsp;·&nbsp;
   <a href="https://the-git-city.vercel.app">the-git-city.vercel.app</a>
 </p>
