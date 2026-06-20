@@ -109,16 +109,13 @@ export async function GET(
       const data = await fetchGitHubDeveloperData(username, allowEmpty ? { allowEmpty: true } : undefined);
       if (rateLimitKey) await recordRateLimitRequest(rateLimitKey);
 
-      // Own profile or admin: create the building.
-      // Own profile claims it; admin creation leaves the dev unclaimed so the real user can claim later.
-      if ((isOwnProfile && authUserId) || isAdmin) {
-        const claimFields = isOwnProfile && authUserId
-          ? {
-              claimed: true,
-              claimed_by: authUserId,
-              claimed_at: new Date().toISOString(),
-            }
-          : {};
+      // Own profile: create the building and claim it.
+      if (isOwnProfile && authUserId) {
+        const claimFields = {
+          claimed: true,
+          claimed_by: authUserId,
+          claimed_at: new Date().toISOString(),
+        };
 
         const { data: created, error: createErr } = await sb
           .from("developers")

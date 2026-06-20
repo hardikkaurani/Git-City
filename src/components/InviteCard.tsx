@@ -100,41 +100,45 @@ export default function InviteCard({ developer, isLoggedIn, isAdmin, onLogin, on
         </p>
 
         {/* CTAs */}
-        <div className="mt-4 flex flex-col items-center gap-2 sm:mt-5 sm:flex-row sm:justify-center sm:gap-3">
-          {isAdmin && onAdminAdd ? (
-            <button
-              onClick={handleAdminAdd}
-              disabled={adding}
-              className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg disabled:opacity-60"
-              style={{
-                backgroundColor: accent,
-                boxShadow: `3px 3px 0 0 ${shadow}`,
-              }}
-            >
-              {adding ? "Adding…" : "Add to city"}
-            </button>
-          ) : (
-            !isLoggedIn && (
+        {(isAdmin || !isLoggedIn) && (
+          <div className="mt-4 flex flex-col items-center gap-2 sm:mt-5 sm:flex-row sm:justify-center sm:gap-3">
+            {isAdmin && onAdminAdd ? (
               <button
-                onClick={() => { onLogin(); onClose(); }}
-                className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg"
+                onClick={handleAdminAdd}
+                disabled={adding}
+                className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg disabled:opacity-60"
                 style={{
                   backgroundColor: accent,
                   boxShadow: `3px 3px 0 0 ${shadow}`,
                 }}
               >
-                This is me? Sign in
+                {adding ? "Adding…" : "Add to city"}
               </button>
-            )
-          )}
+            ) : (
+              !isLoggedIn && (
+                <button
+                  onClick={() => { onLogin(); onClose(); }}
+                  className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg"
+                  style={{
+                    backgroundColor: accent,
+                    boxShadow: `3px 3px 0 0 ${shadow}`,
+                  }}
+                >
+                  This is me? Sign in
+                </button>
+              )
+            )}
 
-          <button
-            onClick={handleInvite}
-            className="btn-press whitespace-nowrap border-[3px] border-border px-4 py-2 text-[10px] text-cream transition-colors hover:border-border-light"
-          >
-            {copied ? "Link copied!" : "Invite this dev"}
-          </button>
-        </div>
+            {isAdmin && (
+              <button
+                onClick={handleInvite}
+                className="btn-press whitespace-nowrap border-[3px] border-border px-4 py-2 text-[10px] text-cream transition-colors hover:border-border-light"
+              >
+                {copied ? "Link copied!" : "Invite this dev"}
+              </button>
+            )}
+          </div>
+        )}
 
         {addError && (
           <p className="mt-3 text-[10px] text-red-400 normal-case">{addError}</p>

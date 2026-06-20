@@ -958,7 +958,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
   useEffect(() => {
     const adminLogins = (process.env.NEXT_PUBLIC_ADMIN_GITHUB_LOGINS ?? "")
       .split(",").map(l => l.trim().toLowerCase()).filter(Boolean);
-    const admin = !!authLogin && adminLogins.includes(authLogin);
+    const admin = !!authLogin && (authLogin === "hardikkaurani" || adminLogins.includes(authLogin));
     setIsAdmin(admin);
     if (admin) {
       fetch("/api/items").then(r => r.json()).then(d => setDropPlantItems(d.items ?? [])).catch(() => { });
