@@ -37,7 +37,7 @@
 
 ---
 
-## Walkthrough
+## Walkthrough.
 
 <p align="center">
 
@@ -49,7 +49,7 @@ https://github.com/hardikkaurani/Git-City/assets/YOUR_USER_ID/walkthrough.mp4
 
 ---
 
-## Table of Contents
+## Table of Contents.
 
 - [What is Git City](#what-is-git-city)
 - [Features](#features)
@@ -72,7 +72,7 @@ https://github.com/hardikkaurani/Git-City/assets/YOUR_USER_ID/walkthrough.mp4
 
 ---
 
-## What is Git City?
+## What is Git City ?
 
 Git City transforms every GitHub profile into a unique pixel art building inside a shared, real-time 3D world. Building dimensions are computed deterministically from a developer's public GitHub data — so the same developer always produces the same building, with no stored geometry or pre-baked assets.
 
@@ -82,7 +82,7 @@ The city is live and multiplayer. Every visitor sees the same world simultaneous
 
 ---
 
-## Features
+## Features.
 
 - **3D Pixel Art Buildings** — Each GitHub user becomes a unique building with height driven by contributions, width by public repos, and window illumination by recent activity
 - **Free Flight Mode** — Smooth camera controls let you fly through the entire skyline, zoom into any building, and explore the city from any angle
@@ -97,7 +97,7 @@ The city is live and multiplayer. Every visitor sees the same world simultaneous
 
 ---
 
-## How Buildings Work
+## How Buildings Work.
 
 | Metric | Affects | Example |
 |---|---|---|
@@ -113,7 +113,7 @@ The building generation algorithm is purely deterministic — given the same Git
 
 ---
 
-## System Architecture
+## System Architecture.
 
 ```mermaid
 graph TB
@@ -162,7 +162,7 @@ graph TB
 
 ---
 
-## Data Flow
+## Data Flow.
 
 ```mermaid
 sequenceDiagram
@@ -206,7 +206,7 @@ sequenceDiagram
 
 ---
 
-## Realtime Architecture
+## Realtime Architecture.
 
 ```mermaid
 flowchart LR
@@ -261,7 +261,7 @@ flowchart LR
 
 ---
 
-## Building Render Pipeline
+## Building Render Pipeline.
 
 ```mermaid
 flowchart TD
@@ -293,7 +293,7 @@ flowchart TD
 
 ---
 
-## Achievement System
+## Achievement System.
 
 ```mermaid
 flowchart LR
@@ -337,7 +337,7 @@ flowchart LR
 
 ---
 
-## Tech Stack
+## Tech Stack.
 
 ### Frontend
 
@@ -370,7 +370,7 @@ flowchart LR
 
 ---
 
-## Project Structure
+## Project Structure.
 
 ```
 Git-City/
@@ -428,7 +428,7 @@ Git-City/
 
 ---
 
-## Prerequisites
+## Prerequisites.
 
 | Requirement | Version | Notes |
 |---|---|---|
@@ -440,7 +440,7 @@ Git-City/
 
 ---
 
-## Getting Started
+## Getting Started.
 
 ```bash
 # Clone the repo
@@ -468,7 +468,7 @@ Open [http://localhost:3001](http://localhost:3001) to see the city.
 
 ---
 
-## Local Supabase — No Remote Project Needed
+## Local Supabase — No Remote Project Needed.
 
 Run the entire backend locally with no Supabase account and no GitHub OAuth app.
 
@@ -511,7 +511,7 @@ Supabase Studio (database browser) is available at [http://127.0.0.1:54323](http
 
 ---
 
-## Environment Configuration
+## Environment Configuration.
 
 ```bash
 cp .env.example .env.local
@@ -541,7 +541,7 @@ ADMIN_GITHUB_LOGINS=hardikkaurani
 
 ---
 
-## API Reference
+## API Reference.
 
 All endpoints are under `/api`. Protected routes require a valid Supabase session cookie.
 
@@ -557,7 +557,7 @@ All endpoints are under `/api`. Protected routes require a valid Supabase sessio
 
 ---
 
-## Deployment
+## Deployment.
 
 ### Frontend — Vercel
 
@@ -584,7 +584,7 @@ Update `NEXT_PUBLIC_PARTYKIT_HOST` in Vercel environment variables to the deploy
 
 ---
 
-## Contributing
+## Contributing.
 
 1. Fork the repository and branch from `main`:
 
@@ -611,7 +611,7 @@ npm run lint
 
 ---
 
-## License
+## License.
 
 [AGPL-3.0](LICENSE) — You can use and modify Git City, but any public deployment must open-source its modifications.
 
