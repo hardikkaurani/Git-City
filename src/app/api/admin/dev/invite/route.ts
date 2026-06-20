@@ -38,6 +38,14 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({
+        success: true,
+        emailSent: false,
+        warning: "RESEND_API_KEY is not configured on the server.",
+      });
+    }
+
     // Fetch GitHub data to customize the email (stars, contributions, avatar)
     const ghData = await fetchGitHubDeveloperData(username, { allowEmpty: true });
     

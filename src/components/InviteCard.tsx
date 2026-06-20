@@ -70,7 +70,11 @@ export default function InviteCard({ developer, isLoggedIn, isAdmin, onLogin, on
 
       await navigator.clipboard.writeText(inviteUrl);
       setCopied(true);
-      alert(`Invitation email successfully sent to ${targetEmail}!\nInvite link has also been copied to your clipboard.`);
+      if (data.emailSent === false) {
+        alert(`Invite link successfully copied to your clipboard!\n\n(Note: The invitation email could not be sent because RESEND_API_KEY is not configured on the server)`);
+      } else {
+        alert(`Invitation email successfully sent to ${targetEmail}!\nInvite link has also been copied to your clipboard.`);
+      }
       setTimeout(() => setCopied(false), 3000);
     } catch (err) {
       setAddError(err instanceof Error ? err.message : "Failed to invite");
