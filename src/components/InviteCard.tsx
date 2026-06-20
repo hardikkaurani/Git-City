@@ -8,6 +8,7 @@ export interface InvitePreview {
   avatar_url: string | null;
   name: string | null;
   bio: string | null;
+  email: string | null;
   contributions: number;
   public_repos: number;
   total_stars: number;
@@ -20,32 +21,60 @@ interface InviteCardProps {
   isAdmin?: boolean;
   onLogin: () => void;
   onClose: () => void;
-  onAdminAdd?: (login: string) => Promise<void> | void;
   accent: string;
   shadow: string;
 }
 
-export default function InviteCard({ developer, isLoggedIn, isAdmin, onLogin, onClose, onAdminAdd, accent, shadow }: InviteCardProps) {
+export default function InviteCard({ developer, isLoggedIn, isAdmin, onLogin, onClose, accent, shadow }: InviteCardProps) {
   const [copied, setCopied] = useState(false);
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
 
   const inviteUrl = `${window.location.origin}/?user=${developer.github_login}`;
 
-  const handleInvite = () => {
-    navigator.clipboard.writeText(inviteUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const handleInvite = async () => {
+    let defaultEmail = developer.email || "";
+    let promptMsg = `Invite @${developer.github_login}!\n`;
+    if (developer.email) {
+      promptMsg += `We found a public email: ${developer.email}.\nPress OK to send the invitation to this email, or edit it below:`;
+    } else {
+      promptMsg += `No public email was found on their GitHub profile.\nPlease enter the email address to send the invitation to:`;
+    }
 
-  const handleAdminAdd = async () => {
-    if (!onAdminAdd || adding) return;
+    const emailConfirm = window.prompt(promptMsg, defaultEmail);
+    if (emailConfirm === null) return;
+
+    const targetEmail = emailConfirm.trim();
+    if (!targetEmail) {
+      alert("Email address is required to send the invitation.");
+      return;
+    }
+
     setAdding(true);
     setAddError(null);
+
     try {
-      await onAdminAdd(developer.github_login);
+      const res = await fetch("/api/admin/dev/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: developer.github_login,
+          email: targetEmail,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send invitation email");
+      }
+
+      await navigator.clipboard.writeText(inviteUrl);
+      setCopied(true);
+      alert(`Invitation email successfully sent to ${targetEmail}!\nInvite link has also been copied to your clipboard.`);
+      setTimeout(() => setCopied(false), 3000);
     } catch (err) {
-      setAddError(err instanceof Error ? err.message : "Failed to add");
+      setAddError(err instanceof Error ? err.message : "Failed to invite");
+    } finally {
       setAdding(false);
     }
   };
@@ -102,39 +131,26 @@ export default function InviteCard({ developer, isLoggedIn, isAdmin, onLogin, on
         {/* CTAs */}
         {(isAdmin || !isLoggedIn) && (
           <div className="mt-4 flex flex-col items-center gap-2 sm:mt-5 sm:flex-row sm:justify-center sm:gap-3">
-            {isAdmin && onAdminAdd ? (
+            {!isLoggedIn && (
               <button
-                onClick={handleAdminAdd}
-                disabled={adding}
-                className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg disabled:opacity-60"
+                onClick={() => { onLogin(); onClose(); }}
+                className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg"
                 style={{
                   backgroundColor: accent,
                   boxShadow: `3px 3px 0 0 ${shadow}`,
                 }}
               >
-                {adding ? "Adding…" : "Add to city"}
+                This is me? Sign in
               </button>
-            ) : (
-              !isLoggedIn && (
-                <button
-                  onClick={() => { onLogin(); onClose(); }}
-                  className="btn-press whitespace-nowrap px-4 py-2 text-[10px] text-bg"
-                  style={{
-                    backgroundColor: accent,
-                    boxShadow: `3px 3px 0 0 ${shadow}`,
-                  }}
-                >
-                  This is me? Sign in
-                </button>
-              )
             )}
 
             {isAdmin && (
               <button
                 onClick={handleInvite}
-                className="btn-press whitespace-nowrap border-[3px] border-border px-4 py-2 text-[10px] text-cream transition-colors hover:border-border-light"
+                disabled={adding}
+                className="btn-press whitespace-nowrap border-[3px] border-border px-4 py-2 text-[10px] text-cream transition-colors hover:border-border-light disabled:opacity-60"
               >
-                {copied ? "Link copied!" : "Invite this dev"}
+                {adding ? "Sending Invite..." : copied ? "Invite Sent!" : "Invite this dev"}
               </button>
             )}
           </div>

@@ -164,6 +164,7 @@ export async function GET(
           avatar_url: data.avatar_url,
           name: data.name,
           bio: data.bio,
+          email: data.email ?? null,
           contributions: data.contributions,
           public_repos: data.public_repos,
           total_stars: data.total_stars,

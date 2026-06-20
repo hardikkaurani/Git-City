@@ -212,6 +212,7 @@ export interface GitHubDeveloperData {
   name: string | null;
   avatar_url: string | null;
   bio: string | null;
+  email?: string | null;
   contributions: number;
   public_repos: number;
   total_stars: number;
@@ -317,6 +318,7 @@ export async function fetchGitHubDeveloperData(
     name: ghUser.name,
     avatar_url: ghUser.avatar_url,
     bio: ghUser.bio,
+    email: ghUser.email ?? null,
     contributions,
     public_repos: publicRepos,
     total_stars: totalStars,

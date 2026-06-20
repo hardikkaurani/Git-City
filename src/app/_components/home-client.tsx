@@ -5398,7 +5398,6 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           isAdmin={isAdmin}
           onLogin={handleSignIn}
           onClose={() => setInvitePreview(null)}
-          onAdminAdd={isAdmin ? adminAddDeveloper : undefined}
           accent={theme.accent}
           shadow={theme.shadow}
         />
