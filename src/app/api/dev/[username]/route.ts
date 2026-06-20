@@ -73,8 +73,8 @@ export async function GET(
     .eq("github_login", username.toLowerCase())
     .single();
 
-  // ─── New dev ───────────────────────────────────────────────
-  if (!cached) {
+  // ─── New or Unclaimed dev ───────────────────────────────────
+  if (!cached || !cached.claimed) {
     // Check if authenticated user is looking up their own profile (or is an admin)
     let isOwnProfile = false;
     let isAdmin = false;

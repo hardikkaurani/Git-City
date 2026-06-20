@@ -2081,8 +2081,11 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
       setCityCache({ ...layout, stats: stats ?? { total_developers: 0, total_contributions: 0 }, rawDevs: rawDevsRef.current });
       updatedBuildings = layout.buildings;
 
-      // Focus camera on the searched building
-      setFocusedBuilding(devData.github_login);
+      // Find the building in the current or updated city
+      const searchPool = updatedBuildings ?? buildings;
+      const foundBuilding = searchPool.find(
+        (b: CityBuilding) => b.login.toLowerCase() === refreshedLogin
+      );
 
       // A8: Ghost preview — if user searched for themselves, show temporary effect
       if (
@@ -2095,12 +2098,6 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
         setTimeout(() => setGhostPreviewLogin(null), 4000);
       }
 
-      // Find the building in the current or updated city
-      const searchPool = updatedBuildings ?? buildings;
-      const foundBuilding = searchPool.find(
-        (b: CityBuilding) => b.login.toLowerCase() === refreshedLogin
-      );
-
       // Compare pick mode: use snapshot so ESC mid-search doesn't cause stale state
       if (wasComparing && !comparePair && foundBuilding) {
         // Only complete if compare mode is still active (not cancelled by ESC)
@@ -2108,28 +2105,40 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           setComparePair([wasComparing, foundBuilding]);
           setFocusedBuilding(wasComparing.login);
         } else {
-          // Compare was cancelled during search — fall through to normal
-          if (foundBuilding) {
-            setSelectedBuilding(foundBuilding);
-            setExploreMode(true);
-          }
+          setInvitePreview({
+            github_login: devData.github_login,
+            avatar_url: devData.avatar_url,
+            name: devData.name,
+            bio: devData.bio,
+            email: devData.email || null,
+            contributions: devData.contributions_total ?? devData.contributions ?? 0,
+            public_repos: devData.public_repos || 0,
+            total_stars: devData.total_stars || 0,
+            primary_language: devData.primary_language || null,
+            followers: devData.followers || 0,
+            following: devData.following || 0,
+            claimed: true,
+          });
+          setUsername("");
         }
-      } else if (!existedBefore) {
-        // New developer: show the share modal
-        setShareData({
-          login: devData.github_login,
-          contributions: devData.contributions,
-          rank: devData.rank,
+      } else {
+        // Show unified profile card
+        setInvitePreview({
+          github_login: devData.github_login,
           avatar_url: devData.avatar_url,
+          name: devData.name,
+          bio: devData.bio,
+          email: devData.email || null,
+          contributions: devData.contributions_total ?? devData.contributions ?? 0,
+          public_repos: devData.public_repos || 0,
+          total_stars: devData.total_stars || 0,
+          primary_language: devData.primary_language || null,
+          followers: devData.followers || 0,
+          following: devData.following || 0,
+          claimed: true,
         });
-        if (foundBuilding) setSelectedBuilding(foundBuilding);
-        setCopied(false);
-      } else if (foundBuilding) {
-        // Existing developer: enter explore mode and show profile card
-        setSelectedBuilding(foundBuilding);
-        setExploreMode(true);
+        setUsername("");
       }
-      setUsername("");
     } catch {
       setFeedback({ type: "error", code: "network", username: trimmed });
     } finally {
@@ -5390,7 +5399,7 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
         );
       })()}
 
-      {/* ─── Invite Card (dev not in city yet) ─── */}
+       {/* ─── Invite Card (dev not in city yet) ─── */}
       {invitePreview && !flyMode && (
         <InviteCard
           developer={invitePreview}
@@ -5398,6 +5407,28 @@ function HomeContent({ resolvedSponsors }: HomeContentProps) {
           isAdmin={isAdmin}
           onLogin={handleSignIn}
           onClose={() => setInvitePreview(null)}
+          onFlyToBuilding={(login) => {
+            const foundBuilding = buildings.find((b) => b.login.toLowerCase() === login.toLowerCase());
+            if (foundBuilding) {
+              setFocusedBuilding(foundBuilding.login);
+              setSelectedBuilding(foundBuilding);
+              setExploreMode(true);
+            }
+          }}
+          onCompare={(dev) => {
+            const foundBuilding = buildings.find((b) => b.login.toLowerCase() === dev.github_login.toLowerCase());
+            if (foundBuilding) {
+              setCompareBuilding(foundBuilding);
+            }
+          }}
+          onViewAchievements={(login) => {
+            const foundBuilding = buildings.find((b) => b.login.toLowerCase() === login.toLowerCase());
+            if (foundBuilding) {
+              setFocusedBuilding(foundBuilding.login);
+              setSelectedBuilding(foundBuilding);
+              setExploreMode(true);
+            }
+          }}
           accent={theme.accent}
           shadow={theme.shadow}
         />
