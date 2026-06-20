@@ -96,8 +96,10 @@ export async function POST(req: NextRequest) {
     const html = wrapInBaseTemplate(bodyHtml);
     const resend = getResend();
 
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "Git City <noreply@example.com>";
+
     const { error: sendError } = await resend.emails.send({
-      from: "Git City <noreply@example.com>",
+      from: fromEmail,
       to: [email],
       subject,
       html,
