@@ -613,7 +613,7 @@ npm run lint
 
 ## License.
 
-[AGPL-3.0](LICENSE) — You can use and modify Git City, but any public deployment must open-source its modifications.
+[AGPL-3.0](LICENSE) — You can use and modify Git City, but any public deployment must open-source its modifications !
 
 ---
 
